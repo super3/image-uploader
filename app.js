@@ -101,5 +101,5 @@ app.get('/bucket/:bucketId', function(req, res){
   result = _getAllFilesFromFolder(__dirname + "\\uploads\\" + bucketId);
   console.log(result)
 
-  res.send(result)
+  res.sendFile(path.join(__dirname, 'views/bucket.html'));
 });

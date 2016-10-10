@@ -1,8 +1,11 @@
 var express = require('express');
 var app = express();
+
 var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
+var mongoose = require('mongoose');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -19,8 +22,17 @@ app.post('/upload', function(req, res){
   // in a single request
   form.multiples = true;
 
-  // store all uploads in the /uploads directory
-  form.uploadDir = path.join(__dirname, '/uploads');
+  // generate a unique bucket id
+  var bucket_id = mongoose.Types.ObjectId();
+
+  // store all uploads in the /uploads/bucket_id directory
+  bucket_dir = '/uploads/' + bucket_id;
+  form.uploadDir = path.join(__dirname, bucket_dir);
+
+  // if /uploads/bucket_id directory doesn't exist, create it
+  if (!fs.existsSync(form.uploadDir)) {
+    fs.mkdirSync(form.uploadDir)
+  }
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name

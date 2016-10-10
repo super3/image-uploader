@@ -21,6 +21,22 @@ $('#upload-input').on('change', function(){
       formData.append('uploads[]', file, file.name);
     }
 
+    function humanFileSize(bytes, si) {
+        var thresh = si ? 1000 : 1024;
+        if(Math.abs(bytes) < thresh) {
+            return bytes + ' B';
+        }
+        var units = si
+            ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+            : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+        var u = -1;
+        do {
+            bytes /= thresh;
+            ++u;
+        } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+        return bytes.toFixed(1)+' '+units[u];
+    }
+
     $.ajax({
       url: '/upload',
       type: 'POST',
@@ -29,6 +45,21 @@ $('#upload-input').on('change', function(){
       contentType: false,
       success: function(data){
           console.log('upload successful!\n' + data);
+
+          var response = JSON.parse(data)
+          console.log(response.bucketId)
+
+          var liElement=document.createElement("li");
+          var aElement=document.createElement("a");
+          bucketText = "Bucket " + response.bucketId + " (" + files.length +
+            " files, " + humanFileSize(response.totalFileSize) +")"
+
+          var textnode=document.createTextNode(bucketText);
+          aElement.setAttribute('href', "/bucket/" + response.bucketId)
+          aElement.appendChild(textnode);
+          liElement.appendChild(aElement)
+
+          document.getElementById("bucket-list").appendChild(liElement);
       },
       xhr: function() {
         // create an XMLHttpRequest

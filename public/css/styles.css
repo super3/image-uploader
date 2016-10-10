@@ -17,6 +17,10 @@ body {
   margin-top: 80px;
 }
 
+.buckets {
+  margin-top: 10px;
+}
+
 .upload-btn {
   color: #ffffff;
   background-color: #F89406;
@@ -67,4 +71,8 @@ h2 {
   .container {
     width: 450px;
   }
+}
+
+ol {
+  text-align: left;
 }

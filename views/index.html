@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>File Uploader - coligo.io</title>
+  <title>File Uploader</title>
   <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
   <link href="css/styles.css" rel="stylesheet">
@@ -30,6 +30,22 @@
   </div>
 
   <input id="upload-input" type="file" name="uploads[]" multiple="multiple"></br>
+
+  <div class="container">
+    <div class="row buckets">
+      <div class="col-xs-12">
+        <div class="panel panel-default">
+          <span class="glyphicon glyphicon glyphicon-briefcase"></span>
+          <h2>Your Buckets</h2>
+          <div class="panel-body">
+            <ol id="bucket-list"></ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

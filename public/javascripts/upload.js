@@ -1,3 +1,43 @@
+function humanFileSize(bytes, si) {
+    var thresh = si ? 1000 : 1024;
+    if(Math.abs(bytes) < thresh) {
+        return bytes + ' B';
+    }
+    var units = si
+        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
+    var u = -1;
+    do {
+        bytes /= thresh;
+        ++u;
+    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
+    return bytes.toFixed(1)+' '+units[u];
+}
+
+function addBucketDom(bucketObj) {
+  bucketText = "Bucket " + bucketObj.bucketId + " (" + bucketObj.fileCount +
+    " files, " + humanFileSize(bucketObj.fileSize) +")"
+
+    var liElement=document.createElement("li");
+    var aElement=document.createElement("a");
+
+    var textnode=document.createTextNode(bucketText);
+    aElement.setAttribute('href', "/bucket/" + bucketObj.bucketId);
+    aElement.appendChild(textnode);
+    liElement.appendChild(aElement);
+
+    document.getElementById("bucket-list").appendChild(liElement);
+}
+
+function loadBucketsLocal() {
+  var bucketList = localStorage.getItem("bucketList");
+  if (bucketList !== null) {
+    bucketList = JSON.parse(bucketList);
+    bucketList.forEach(addBucketDom)
+  }
+}
+loadBucketsLocal();
+
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
     $('.progress-bar').text('0%');
@@ -21,22 +61,6 @@ $('#upload-input').on('change', function(){
       formData.append('uploads[]', file, file.name);
     }
 
-    function humanFileSize(bytes, si) {
-        var thresh = si ? 1000 : 1024;
-        if(Math.abs(bytes) < thresh) {
-            return bytes + ' B';
-        }
-        var units = si
-            ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
-            : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
-        var u = -1;
-        do {
-            bytes /= thresh;
-            ++u;
-        } while(Math.abs(bytes) >= thresh && u < units.length - 1);
-        return bytes.toFixed(1)+' '+units[u];
-    }
-
     $.ajax({
       url: '/upload',
       type: 'POST',
@@ -46,20 +70,28 @@ $('#upload-input').on('change', function(){
       success: function(data){
           console.log('upload successful!\n' + data);
 
-          var response = JSON.parse(data)
-          console.log(response.bucketId)
+          var response = JSON.parse(data);
+          console.log(response.bucketId);
 
-          var liElement=document.createElement("li");
-          var aElement=document.createElement("a");
-          bucketText = "Bucket " + response.bucketId + " (" + files.length +
-            " files, " + humanFileSize(response.totalFileSize) +")"
+          var bucketObj = {
+            bucketId: response.bucketId,
+            fileCount: files.length,
+            fileSize: response.totalFileSize
+          };
 
-          var textnode=document.createTextNode(bucketText);
-          aElement.setAttribute('href', "/bucket/" + response.bucketId)
-          aElement.appendChild(textnode);
-          liElement.appendChild(aElement)
+          var bucketList = localStorage.getItem("bucketList");
+          if (bucketList === null) {
+            bucketList = [bucketObj];
+          }
+          else {
+            bucketList = JSON.parse(bucketList);
+            bucketList.push(bucketObj);
+          }
+          localStorage.setItem("bucketList", JSON.stringify(bucketList));
 
-          document.getElementById("bucket-list").appendChild(liElement);
+          console.log(bucketList)
+
+          addBucketDom(bucketObj);
       },
       xhr: function() {
         // create an XMLHttpRequest

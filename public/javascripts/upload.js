@@ -1,3 +1,9 @@
+/**
+* Converts bytes into a human readable file size.
+* @param {number} bytes Bytes of the file.
+* @param {boolean} si Use SI units or not.
+* @returns {string}
+*/
 function humanFileSize(bytes, si) {
     var thresh = si ? 1000 : 1024;
     if(Math.abs(bytes) < thresh) {
@@ -14,21 +20,36 @@ function humanFileSize(bytes, si) {
     return bytes.toFixed(1)+' '+units[u];
 }
 
+/**
+* Adds a bucket object to a list in the DOM.
+* @param {object} bucketObj Object containing metadata for a bucket.
+*/
 function addBucketDom(bucketObj) {
+  // Create bucket text that includes bucket id, file count, and file size
   bucketText = "Bucket " + bucketObj.bucketId + " (" + bucketObj.fileCount +
-    " files, " + humanFileSize(bucketObj.fileSize) +")"
+  " files, " + humanFileSize(bucketObj.fileSize) +")"
 
-    var liElement=document.createElement("li");
-    var aElement=document.createElement("a");
+  // Create list and link elements to add to the DOM
+  var liElement=document.createElement("li");
+  var aElement=document.createElement("a");
 
-    var textnode=document.createTextNode(bucketText);
-    aElement.setAttribute('href', "/bucket/" + bucketObj.bucketId);
-    aElement.appendChild(textnode);
-    liElement.appendChild(aElement);
+  // Add create a textnode with the bucket text
+  var textnode=document.createTextNode(bucketText);
 
-    document.getElementById("bucket-list").appendChild(liElement);
+  // Add bucket id to the link and then add bucket text to the link
+  aElement.setAttribute('href', "/bucket/" + bucketObj.bucketId);
+  aElement.appendChild(textnode);
+
+  // Add the link to the list element
+  liElement.appendChild(aElement);
+
+  // Add the list element to the list
+  document.getElementById("bucket-list").appendChild(liElement);
 }
 
+/**
+* Loads a list of buckets from local storage and adds them to the DOM.
+*/
 function loadBucketsLocal() {
   var bucketList = localStorage.getItem("bucketList");
   if (bucketList !== null) {
@@ -36,7 +57,29 @@ function loadBucketsLocal() {
     bucketList.forEach(addBucketDom)
   }
 }
+
+// Load buckets.
 loadBucketsLocal();
+
+/**
+* Adds a bucket object to a list in the DOM.
+* @param {object} bucketObj Object containing metadata for a bucket.
+*/
+function addBucket(bucketObj) {
+  var bucketList = localStorage.getItem("bucketList");
+  if (bucketList === null) {
+    bucketList = [bucketObj];
+  }
+  else {
+    bucketList = JSON.parse(bucketList);
+    bucketList.push(bucketObj);
+  }
+  localStorage.setItem("bucketList", JSON.stringify(bucketList));
+
+  console.log(bucketList)
+
+  addBucketDom(bucketObj);
+}
 
 $('.upload-btn').on('click', function (){
     $('#upload-input').click();
@@ -70,6 +113,7 @@ $('#upload-input').on('change', function(){
       success: function(data){
           console.log('upload successful!\n' + data);
 
+          // convert
           var response = JSON.parse(data);
           console.log(response.bucketId);
 
@@ -77,21 +121,9 @@ $('#upload-input').on('change', function(){
             bucketId: response.bucketId,
             fileCount: files.length,
             fileSize: response.totalFileSize
-          };
-
-          var bucketList = localStorage.getItem("bucketList");
-          if (bucketList === null) {
-            bucketList = [bucketObj];
           }
-          else {
-            bucketList = JSON.parse(bucketList);
-            bucketList.push(bucketObj);
-          }
-          localStorage.setItem("bucketList", JSON.stringify(bucketList));
 
-          console.log(bucketList)
-
-          addBucketDom(bucketObj);
+          addBucket(bucketObj)
       },
       xhr: function() {
         // create an XMLHttpRequest

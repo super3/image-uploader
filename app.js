@@ -13,7 +13,6 @@ app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 app.set('views', __dirname + '/views');
 
-
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -77,10 +76,6 @@ app.post('/upload', function(req, res){
 
 app.use('/uploads', express.static('./uploads'));
 
-var server = app.listen(3000, function(){
-  console.log('Server listening on port 3000');
-});
-
 app.get('/bucket/:bucketId', function(req, res){
   bucketId = req.params.bucketId
   console.log(bucketId)
@@ -102,8 +97,11 @@ app.get('/bucket/:bucketId', function(req, res){
 
   result = _getAllFilesFromFolder(__dirname + "\\uploads\\" + bucketId);
   console.log(result)
-
-
-
+  
   res.render('bucket.html', {files:result});
+});
+
+// start the server
+var server = app.listen(3000, function(){
+  console.log('Server listening on port 3000...');
 });

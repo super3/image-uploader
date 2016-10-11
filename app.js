@@ -1,16 +1,23 @@
 var express = require('express');
 var app = express();
+var mustacheExpress = require('mustache-express');
 
 var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 var mongoose = require('mongoose');
 
+// Register '.html' extension with The Mustache Express
+app.engine('html', mustacheExpress());
+
+app.set('view engine', 'mustache');
+app.set('views', __dirname + '/views');
+
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', function(req, res){
-  res.sendFile(path.join(__dirname, 'views/index.html'));
+app.get('/', function (req, res) {
+    res.render('index.html');
 });
 
 function getFilesizeInBytes(filename) {
@@ -84,14 +91,9 @@ app.get('/bucket/:bucketId', function(req, res){
     var results = [];
 
     filesystem.readdirSync(dir).forEach(function(file) {
-
-        file = dir+'/'+file;
-        var stat = filesystem.statSync(file);
-
-        if (stat && stat.isDirectory()) {
-            results = results.concat(_getAllFilesFromFolder(file))
-        } else results.push(file);
-
+        results.push({
+          name: file,
+          url:  "/uploads/" + bucketId + "/" + file})
     });
 
     return results;
@@ -101,5 +103,7 @@ app.get('/bucket/:bucketId', function(req, res){
   result = _getAllFilesFromFolder(__dirname + "\\uploads\\" + bucketId);
   console.log(result)
 
-  res.sendFile(path.join(__dirname, 'views/bucket.html'));
+
+
+  res.render('bucket.html', {files:result});
 });

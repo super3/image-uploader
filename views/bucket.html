@@ -19,14 +19,16 @@
           <span class="glyphicon glyphicon glyphicon-briefcase"></span>
           <h2>Files in this Bucket</h2>
           <div class="panel-body">
-            <ol id="bucket-list"></ol>
+            <ul>
+              {{#files}}
+              <li><a href="{{url}}">{{name}}</a></li>
+              {{/files}}
+            </ul>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

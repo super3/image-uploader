@@ -1,3 +1,5 @@
+'use strict';
+
 var express = require('express');
 var app = express();
 var mustacheExpress = require('mustache-express');
@@ -6,7 +8,7 @@ var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 var mongoose = require('mongoose');
-var utils = require('./lib/utils.js')
+var utils = require('./lib/utils.js');
 
 // Register '.html' extension with The Mustache Express
 app.engine('html', mustacheExpress());
@@ -33,12 +35,12 @@ app.post('/upload', function(req, res){
   var bucketId = mongoose.Types.ObjectId();
 
   // store all uploads in the /uploads/bucket_id directory
-  bucketDir = '/uploads/' + bucketId;
+  var bucketDir = '/uploads/' + bucketId;
   form.uploadDir = path.join(__dirname, bucketDir);
 
   // if /uploads/bucket_id directory doesn't exist, create it
   if (!fs.existsSync(form.uploadDir)) {
-    fs.mkdirSync(form.uploadDir)
+    fs.mkdirSync(form.uploadDir);
   }
 
   var totalFileSize = 0;
@@ -72,31 +74,31 @@ app.post('/upload', function(req, res){
 app.use('/uploads', express.static('./uploads'));
 
 app.get('/bucket/:bucketId', function(req, res){
-  bucketId = req.params.bucketId
-  console.log(bucketId)
+  var bucketId = req.params.bucketId;
+  console.log(bucketId);
 
   var _getAllFilesFromFolder = function(dir) {
 
-    var filesystem = require("fs");
+    var filesystem = require('fs');
     var results = [];
 
     filesystem.readdirSync(dir).forEach(function(file) {
         results.push({
           name: file,
-          url:  "/uploads/" + bucketId + "/" + file})
+          url:  '/uploads/' + bucketId + '/' + file});
     });
 
     return results;
 
   };
 
-  result = _getAllFilesFromFolder(__dirname + "\\uploads\\" + bucketId);
-  console.log(result)
+  var result = _getAllFilesFromFolder(__dirname + '\\uploads\\' + bucketId);
+  console.log(result);
 
   res.render('bucket.html', {files:result});
 });
 
 // start the server
-var server = app.listen(3000, function(){
+app.listen(3000, function(){
   console.log('Server listening on port 3000...');
 });

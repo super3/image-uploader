@@ -1,3 +1,5 @@
+'use strict';
+
 /**
 * Converts bytes into a human readable file size.
 * @param {number} bytes Bytes of the file.

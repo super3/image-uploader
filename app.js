@@ -6,6 +6,7 @@ var path = require('path');
 var formidable = require('formidable');
 var fs = require('fs');
 var mongoose = require('mongoose');
+var utils = require('./lib/utils.js')
 
 // Register '.html' extension with The Mustache Express
 app.engine('html', mustacheExpress());
@@ -18,17 +19,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function (req, res) {
     res.render('index.html');
 });
-
-/**
-* Gets the filesize in bytes,
-* @param {string} filename Path to the file.
-* @returns {number}
-*/
-function getFilesizeInBytes(filename) {
- var stats = fs.statSync(filename)
- var fileSizeInBytes = stats["size"]
- return fileSizeInBytes
-}
 
 app.post('/upload', function(req, res){
 
@@ -57,7 +47,7 @@ app.post('/upload', function(req, res){
   // rename it to it's orignal name
   form.on('file', function(field, file) {
     fs.rename(file.path, path.join(form.uploadDir, file.name));
-    totalFileSize += getFilesizeInBytes(file.path);
+    totalFileSize += utils.getFilesizeInBytes(file.path);
   });
 
 

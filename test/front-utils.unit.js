@@ -14,6 +14,10 @@ describe('utils', function() {
       expect(utils.humanFileSize(1024, false)).to.equal('1.0 KiB');
     });
 
+    it('check below threshold', function() {
+      expect(utils.humanFileSize(10)).to.equal('10 B');
+    });
+
   });
 
 });

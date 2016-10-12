@@ -19,6 +19,11 @@ app.get('/', function (req, res) {
     res.render('index.html');
 });
 
+/**
+* Gets the filesize in bytes,
+* @param {string} filename Path to the file.
+* @returns {number}
+*/
 function getFilesizeInBytes(filename) {
  var stats = fs.statSync(filename)
  var fileSizeInBytes = stats["size"]
@@ -97,7 +102,7 @@ app.get('/bucket/:bucketId', function(req, res){
 
   result = _getAllFilesFromFolder(__dirname + "\\uploads\\" + bucketId);
   console.log(result)
-  
+
   res.render('bucket.html', {files:result});
 });
 

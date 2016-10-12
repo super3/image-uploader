@@ -66,7 +66,10 @@ loadBucketsLocal();
 * @param {object} bucketObj Object containing metadata for a bucket.
 */
 function addBucket(bucketObj) {
+  // get the bucket list from local storage
   var bucketList = localStorage.getItem("bucketList");
+
+  // if there is no bucket list create it, else add the new bucket
   if (bucketList === null) {
     bucketList = [bucketObj];
   }
@@ -76,8 +79,7 @@ function addBucket(bucketObj) {
   }
   localStorage.setItem("bucketList", JSON.stringify(bucketList));
 
-  console.log(bucketList)
-
+  // add the bucket to the current DOM
   addBucketDom(bucketObj);
 }
 
@@ -113,16 +115,15 @@ $('#upload-input').on('change', function(){
       success: function(data){
           console.log('upload successful!\n' + data);
 
-          // convert
+          // convert response to bucket object
           var response = JSON.parse(data);
-          console.log(response.bucketId);
-
           var bucketObj = {
             bucketId: response.bucketId,
             fileCount: files.length,
             fileSize: response.totalFileSize
           }
 
+          // add to local storage and the DOM
           addBucket(bucketObj)
       },
       xhr: function() {

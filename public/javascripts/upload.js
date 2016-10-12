@@ -1,35 +1,13 @@
 'use strict';
 
 /**
-* Converts bytes into a human readable file size.
-* @param {number} bytes Bytes of the file.
-* @param {boolean} si Use SI units or not.
-* @returns {string}
-*/
-function humanFileSize(bytes, si) {
-    var thresh = si ? 1000 : 1024;
-    if(Math.abs(bytes) < thresh) {
-        return bytes + ' B';
-    }
-    var units = si
-        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
-        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
-    var u = -1;
-    do {
-        bytes /= thresh;
-        ++u;
-    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1)+' '+units[u];
-}
-
-/**
 * Adds a bucket object to a list in the DOM.
 * @param {object} bucketObj Object containing metadata for a bucket.
 */
 function addBucketDom(bucketObj) {
   // Create bucket text that includes bucket id, file count, and file size
-  bucketText = "Bucket " + bucketObj.bucketId + " (" + bucketObj.fileCount +
-  " files, " + humanFileSize(bucketObj.fileSize) +")"
+  var bucketText = "Bucket " + bucketObj.bucketId + " (" + bucketObj.fileCount +
+  " files, " + Utils.humanFileSize(bucketObj.fileSize) +")";
 
   // Create list and link elements to add to the DOM
   var liElement=document.createElement("li");

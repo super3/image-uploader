@@ -2,3 +2,5 @@
 
 var expect = require('chai').expect;
 var utils = require('../public/javascripts/utils.js');
+
+console.log(expect, utils);

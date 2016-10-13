@@ -53,8 +53,9 @@ app.post('/upload', function(req, res){
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
   form.on('file', function(field, file) {
-    fs.rename(file.path, path.join(form.uploadDir, file.name));
-    totalFileSize += utils.getFilesizeInBytes(file.path);
+    var correctPath = path.join(form.uploadDir, file.name);
+    fs.rename(file.path, correctPath);
+    totalFileSize += utils.getFilesizeInBytes(correctPath);
   });
 
 

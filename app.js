@@ -54,7 +54,7 @@ app.post('/upload', function(req, res){
   // rename it to it's orignal name
   form.on('file', function(field, file) {
     var correctPath = path.join(form.uploadDir, file.name);
-    fs.rename(file.path, correctPath);
+    fs.renameSync(file.path, correctPath);
     totalFileSize += utils.getFilesizeInBytes(correctPath);
   });
 

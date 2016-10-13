@@ -14,7 +14,7 @@ describe('utils', function() {
     var sampleData = 'HELLO';
 
     // get temp file location
-    var tmpFile = os.tmpDir() + '\\sample.txt';
+    var tmpFile = os.tmpDir() + '/sample.txt';
 
     // add sample file
     fs.writeFileSync(tmpFile, sampleData);

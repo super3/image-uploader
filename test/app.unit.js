@@ -17,7 +17,7 @@ describe('App', function() {
 
   // create sample data
   var sampleData = 'HELLO';
-  var tmpFile = os.tmpDir() + '\\sample.txt';
+  var tmpFile = os.tmpDir() + '/sample.txt';
   fs.writeFileSync(tmpFile, sampleData);
 
   console.log(tmpFile);

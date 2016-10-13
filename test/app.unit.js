@@ -20,8 +20,6 @@ describe('App', function() {
   var tmpFile = os.tmpDir() + '/sample.txt';
   fs.writeFileSync(tmpFile, sampleData);
 
-  console.log(tmpFile);
-
   it('upload a sample file', function(done) {
     api.post('/upload')
             .attach('samplefile', tmpFile)

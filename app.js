@@ -40,7 +40,7 @@ app.post('/upload', function(req, res){
 
   // if /uploads directory doesn't exist, create it
   console.log(!fs.existsSync('uploads/'));
-  if (!fs.existsSync('uploads/')) {
+  if (true) {
     console.log('1');
     fs.mkdirSync('uploads/');
   } else {

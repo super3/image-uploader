@@ -39,9 +39,8 @@ app.post('/upload', function(req, res){
   form.uploadDir = path.join(__dirname, bucketDir);
 
   // if /uploads directory doesn't exist, create it
-  var condition = !fs.existsSync('uploads/');
-  if (condition) {
-    console.log('1');
+  if (!fs.existsSync('uploads/')) {
+    /* istanbul ignore next */
     fs.mkdirSync('uploads/');
   }
 

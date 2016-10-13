@@ -79,10 +79,9 @@ app.get('/bucket/:bucketId', function(req, res){
 
   var _getAllFilesFromFolder = function(dir) {
 
-    var filesystem = require('fs');
     var results = [];
 
-    filesystem.readdirSync(dir).forEach(function(file) {
+    fs.readdirSync(dir).forEach(function(file) {
         results.push({
           name: file,
           url:  '/uploads/' + bucketId + '/' + file});

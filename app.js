@@ -57,9 +57,11 @@ app.post('/upload', function(req, res){
 
     if(file.type != 'image/jpeg' && file.type !=
      'image/png' && file.type != 'image/gif') {
-           this.emit('error');
+        console.log(file.type);
+        req.pause();
+        res.status = 400;
+        res.end('upload limit exceeded');
        }
-    console.log(file.type);
   });
 
   form.on('file', function(field, file) {
@@ -73,6 +75,8 @@ app.post('/upload', function(req, res){
   form.on('error', function(err) {
     /* istanbul ignore next */
     console.log('An error has occured: \n' + err);
+    //console.log(res);
+    //res.status(500).send('Somthing broke!');
   });
 
   // once all the files have been uploaded, send a response to the client

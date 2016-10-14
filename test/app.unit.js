@@ -20,7 +20,7 @@ describe('App', function() {
   var tmpFile = os.tmpDir() + '/sample.jpg';
   fs.writeFileSync(tmpFile, sampleData);
 
-  it('upload a sample file', function(done) {
+  it('upload a sample image file', function(done) {
     api.post('/upload')
             .attach('samplefile', tmpFile)
             .expect(200, done);
@@ -58,6 +58,13 @@ describe('App', function() {
     .expect(200, done);
   });
 
+  // create sample data
+  /*tmpFile = os.tmpDir() + '/sample.txt';
+  fs.writeFileSync(tmpFile, sampleData);
 
-
+  it('upload an invalid file', function(done) {
+    api.post('/upload')
+            .attach('samplefile', tmpFile)
+            .expect(415, done);
+  });*/
 });

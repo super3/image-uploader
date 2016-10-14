@@ -12,10 +12,9 @@ var utils = require('./lib/utils.js');
 
 // Register '.html' extension with The Mustache Express
 app.engine('html', mustacheExpress());
-
 app.set('view engine', 'mustache');
-app.set('views', __dirname + '/views');
 
+app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', function (req, res) {
@@ -58,9 +57,6 @@ app.post('/upload', function(req, res){
     if(file.type != 'image/jpeg' && file.type !=
      'image/png' && file.type != 'image/gif') {
         console.log(file.type);
-        req.pause();
-        res.status = 400;
-        res.end('upload limit exceeded');
        }
   });
 

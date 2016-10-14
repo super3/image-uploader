@@ -53,6 +53,15 @@ app.post('/upload', function(req, res){
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
+  form.on('fileBegin', function(name, file) {
+
+    if(file.type != 'image/jpeg' && file.type !=
+     'image/png' && file.type != 'image/gif') {
+           this.emit('error');
+       }
+    console.log(file.type);
+  });
+
   form.on('file', function(field, file) {
     var correctPath = path.join(form.uploadDir, file.name);
     fs.renameSync(file.path, correctPath);
@@ -90,6 +99,7 @@ app.get('/bucket/:bucketId', function(req, res){
     var results = [];
 
     fs.readdirSync(dir).forEach(function(file) {
+        console.log(file);
         results.push({
           name: file,
           url:  '/uploads/' + bucketId + '/' + file});

@@ -17,7 +17,7 @@ describe('App', function() {
 
   // create sample data
   var sampleData = 'HELLO';
-  var tmpFile = os.tmpDir() + '/sample.txt';
+  var tmpFile = os.tmpDir() + '/sample.jpg';
   fs.writeFileSync(tmpFile, sampleData);
 
   it('upload a sample file', function(done) {

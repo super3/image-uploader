@@ -26,4 +26,38 @@ describe('App', function() {
             .expect(200, done);
   });
 
+  // find the bucket id (hacky)
+  var _getAllFilesFromFolder = function(dir) {
+
+    var filesystem = require('fs');
+    var results = [];
+
+    filesystem.readdirSync(dir).forEach(function(file) {
+
+        file = dir+'/'+file;
+        var stat = filesystem.statSync(file);
+
+        if (stat && stat.isDirectory()) {
+            results = results.concat(_getAllFilesFromFolder(file));
+        } else {
+          results.push(file);
+        }
+
+    });
+
+    return results;
+
+  };
+
+  it('test the bucket page', function(done) {
+    var allFiles = _getAllFilesFromFolder('uploads');
+    var bucketId = allFiles[0].split('/')[1];
+
+    api.get('/bucket/' + bucketId)
+    .set('Accept', 'application/json')
+    .expect(200, done);
+  });
+
+
+
 });

@@ -62,6 +62,7 @@ app.post('/upload', function(req, res){
 
   // log any errors that occur
   form.on('error', function(err) {
+    /* istanbul ignore next */
     console.log('An error has occured: \n' + err);
   });
 

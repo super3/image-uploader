@@ -99,7 +99,7 @@ app.get('/bucket/:bucketId', function(req, res){
 
   };
 
-  var result = _getAllFilesFromFolder(__dirname + '\\uploads\\' + bucketId);
+  var result = _getAllFilesFromFolder(__dirname + '/uploads/' + bucketId);
   console.log(result);
 
   res.render('bucket.html', {files:result});

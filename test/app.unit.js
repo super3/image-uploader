@@ -49,7 +49,7 @@ describe('App', function() {
 
   };
 
-  it('test the bucket page', function(done) {
+  it('bucket page should return a 200 response', function(done) {
     var allFiles = _getAllFilesFromFolder('uploads');
     var bucketId = allFiles[0].split('/')[1];
 

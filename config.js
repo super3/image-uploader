@@ -3,5 +3,7 @@
 module.exports = {
   mongoName: 'Test',
   mongoHost: 'localhost',
-  mongoPort: 27017
+  mongoPort: 27017,
+
+  uploadDir: 'uploads/'
 };

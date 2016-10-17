@@ -37,11 +37,8 @@ app.post('/upload', function(req, res){
   var bucketDir = '/uploads/' + bucketId;
   form.uploadDir = path.join(__dirname, bucketDir);
 
-  // if /uploads directory doesn't exist, create it
-  if (!fs.existsSync('uploads/')) {
-    /* istanbul ignore next */
-    fs.mkdirSync('uploads/');
-  }
+  // create uploads directory if it doesn't exist
+  utils.setupUploadDir();
 
   // if /uploads/bucket_id directory doesn't exist, create it
   if (!fs.existsSync(form.uploadDir)) {
@@ -54,8 +51,8 @@ app.post('/upload', function(req, res){
   // rename it to it's orignal name
   form.on('fileBegin', function(name, file) {
 
-    if(file.type != 'image/jpeg' && file.type !=
-     'image/png' && file.type != 'image/gif') {
+    if(file.type !== 'image/jpeg' && file.type !==
+     'image/png' && file.type !== 'image/gif') {
         console.log(file.type);
        }
   });

@@ -4,9 +4,9 @@ var express = require('express');
 var app = express();
 var mustacheExpress = require('mustache-express');
 
+var fs = require('fs');
 var path = require('path');
 var formidable = require('formidable');
-var fs = require('fs');
 var mongoose = require('mongoose');
 var utils = require('./lib/utils.js');
 
@@ -77,13 +77,10 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    if (!cancelled) {
-      res.status(200).send('Unsupported Media Type');
       res.end(JSON.stringify({
         bucketId: bucketId,
         totalFileSize: totalFileSize})
       );
-    }
   });
 
   // parse the incoming request containing the form data
@@ -118,7 +115,12 @@ app.get('/bucket/:bucketId', function(req, res){
   res.render('bucket.html', {files:result});
 });
 
-// start the server
-app.listen(3000, function(){
-  console.log('Server listening on port 3000...');
-});
+
+if (require.main === module) {
+  // start the server
+  app.listen(3000, function(){
+    console.log('Server listening on port 3000...');
+  });
+}
+
+module.exports = app;

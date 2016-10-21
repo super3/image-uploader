@@ -1,13 +1,18 @@
 'use strict';
 
-var supertest = require('supertest'),
-api = supertest('http://localhost:3000'),
-app = require('../app.js'),
-fs = require('fs'),
-os = require('os');
+var supertest = require('supertest');
+var api = supertest('http://localhost:3000');
+
+/* jshint undef: true */
+var app = require('../app.js');
+var fs = require('fs');
+var os = require('os');
 
 describe('App', function() {
-  //console.log(app);
+
+  before(function(done) {
+     app.listen(3000, done);
+  });
 
   it('index should return a 200 response', function(done) {
     api.get('/')
@@ -15,12 +20,14 @@ describe('App', function() {
     .expect(200, done);
   });
 
-  // create sample data
   var sampleData = 'HELLO';
-  var tmpFile = os.tmpDir() + '/sample.jpg';
-  fs.writeFileSync(tmpFile, sampleData);
 
   it('upload a sample image file', function(done) {
+    // create sample data
+
+    var tmpFile = os.tmpDir() + '/sample.jpg';
+    fs.writeFileSync(tmpFile, sampleData);
+
     api.post('/upload')
             .attach('samplefile', tmpFile)
             .expect(200, done);
@@ -58,11 +65,11 @@ describe('App', function() {
     .expect(200, done);
   });
 
-  // create sample invalid data
-  tmpFile = os.tmpDir() + '/sample.txt';
-  fs.writeFileSync(tmpFile, sampleData);
-
   it('upload an invalid file', function(done) {
+    // create sample invalid data
+    var tmpFile = os.tmpDir() + '/sample.txt';
+    fs.writeFileSync(tmpFile, sampleData);
+
     api.post('/upload')
             .attach('samplefile', tmpFile)
             .expect(415, done);

@@ -46,6 +46,7 @@ app.post('/upload', function(req, res){
   }
 
   var totalFileSize = 0;
+  var cancelled = false;
 
   // every time a file has been uploaded successfully,
   // rename it to it's orignal name
@@ -53,7 +54,9 @@ app.post('/upload', function(req, res){
 
     if(file.type !== 'image/jpeg' && file.type !==
      'image/png' && file.type !== 'image/gif') {
-        console.log(file.type);
+        cancelled = true;
+        res.status(415).send('Unsupported Media Type');
+        res.end('415');
        }
   });
 
@@ -74,10 +77,13 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
-    res.end(JSON.stringify({
-      bucketId: bucketId,
-      totalFileSize: totalFileSize})
-    );
+    if (!cancelled) {
+      res.status(200).send('Unsupported Media Type');
+      res.end(JSON.stringify({
+        bucketId: bucketId,
+        totalFileSize: totalFileSize})
+      );
+    }
   });
 
   // parse the incoming request containing the form data

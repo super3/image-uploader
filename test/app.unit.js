@@ -7,7 +7,7 @@ fs = require('fs'),
 os = require('os');
 
 describe('App', function() {
-  console.log(app);
+  //console.log(app);
 
   it('index should return a 200 response', function(done) {
     api.get('/')
@@ -58,13 +58,13 @@ describe('App', function() {
     .expect(200, done);
   });
 
-  // create sample data
-  /*tmpFile = os.tmpDir() + '/sample.txt';
+  // create sample invalid data
+  tmpFile = os.tmpDir() + '/sample.txt';
   fs.writeFileSync(tmpFile, sampleData);
 
   it('upload an invalid file', function(done) {
     api.post('/upload')
             .attach('samplefile', tmpFile)
             .expect(415, done);
-  });*/
+  });
 });

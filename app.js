@@ -9,6 +9,7 @@ var path = require('path');
 var formidable = require('formidable');
 var mongoose = require('mongoose');
 var utils = require('./lib/utils.js');
+var config = require('./config.js');
 
 // Register '.html' extension with The Mustache Express
 app.engine('html', mustacheExpress());
@@ -37,13 +38,9 @@ app.post('/upload', function(req, res){
   var bucketDir = '/uploads/' + bucketId;
   form.uploadDir = path.join(__dirname, bucketDir);
 
-  // create uploads directory if it doesn't exist
-  utils.setupUploadDir();
-
-  // if /uploads/bucket_id directory doesn't exist, create it
-  if (!fs.existsSync(form.uploadDir)) {
-    fs.mkdirSync(form.uploadDir);
-  }
+  // create uploads directory and bucket directory they doesn't exist
+  utils.setupDir(config.uploadDir);
+  utils.setupDir(form.uploadDir);
 
   var totalFileSize = 0;
   var cancelled = false;
@@ -92,14 +89,12 @@ app.use('/uploads', express.static('./uploads'));
 
 app.get('/bucket/:bucketId', function(req, res){
   var bucketId = req.params.bucketId;
-  console.log(bucketId);
 
   var _getAllFilesFromFolder = function(dir) {
 
     var results = [];
 
     fs.readdirSync(dir).forEach(function(file) {
-        console.log(file);
         results.push({
           name: file,
           url:  '/uploads/' + bucketId + '/' + file});

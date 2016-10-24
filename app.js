@@ -11,17 +11,20 @@ var mongoose = require('mongoose');
 var utils = require('./lib/utils.js');
 var config = require('./config.js');
 
-// Register '.html' extension with The Mustache Express
+// register '.html' extension with The Mustache Express
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 
+// setup views and the public directory
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
 
+// load the index
 app.get('/', function (req, res) {
     res.render('index.html');
 });
 
+// upload
 app.post('/upload', function(req, res){
 
   // create an incoming form object
@@ -38,17 +41,16 @@ app.post('/upload', function(req, res){
   var bucketDir = '/uploads/' + bucketId;
   form.uploadDir = path.join(__dirname, bucketDir);
 
-  // create uploads directory and bucket directory they doesn't exist
+  // create uploads directory and bucket directory if they doesn't exist
   utils.setupDir(config.uploadDir);
   utils.setupDir(form.uploadDir);
 
+  // keep track of the total file size and if the upload is cancelled
   var totalFileSize = 0;
   var cancelled = false;
 
-  // every time a file has been uploaded successfully,
-  // rename it to it's orignal name
-  form.on('fileBegin', function(name, file) {
 
+  form.on('fileBegin', function(name, file) {
     if(file.type !== 'image/jpeg' && file.type !==
      'image/png' && file.type !== 'image/gif') {
         cancelled = true;
@@ -57,6 +59,8 @@ app.post('/upload', function(req, res){
        }
   });
 
+  // every time a file has been uploaded successfully, rename it to it's
+  // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
     var correctPath = path.join(form.uploadDir, file.name);
     fs.renameSync(file.path, correctPath);
@@ -68,8 +72,6 @@ app.post('/upload', function(req, res){
   form.on('error', function(err) {
     /* istanbul ignore next */
     console.log('An error has occured: \n' + err);
-    //console.log(res);
-    //res.status(500).send('Somthing broke!');
   });
 
   // once all the files have been uploaded, send a response to the client
@@ -105,7 +107,6 @@ app.get('/bucket/:bucketId', function(req, res){
   };
 
   var result = _getAllFilesFromFolder(__dirname + '/uploads/' + bucketId);
-  console.log(result);
 
   res.render('bucket.html', {files:result});
 });

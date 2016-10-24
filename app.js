@@ -111,9 +111,9 @@ app.get('/bucket/:bucketId', function(req, res){
   res.render('bucket.html', {files:result});
 });
 
-
+// start the server, if running this script alone
 if (require.main === module) {
-  // start the server
+  /* istanbul ignore next */
   app.listen(3000, function(){
     console.log('Server listening on port 3000...');
   });

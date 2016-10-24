@@ -6,35 +6,35 @@
 */
 function addBucketDom(bucketObj) {
   // Create bucket text that includes bucket id, file count, and file size
-  var bucketText = "Bucket " + bucketObj.bucketId + " (" + bucketObj.fileCount +
-  " files, " + Utils.humanFileSize(bucketObj.fileSize) +")";
+  var bucketText = 'Bucket ' + bucketObj.bucketId + ' (' + bucketObj.fileCount +
+  ' files, ' + Utils.humanFileSize(bucketObj.fileSize) +')';
 
   // Create list and link elements to add to the DOM
-  var liElement=document.createElement("li");
-  var aElement=document.createElement("a");
+  var liElement=document.createElement('li');
+  var aElement=document.createElement('a');
 
   // Add create a textnode with the bucket text
   var textnode=document.createTextNode(bucketText);
 
   // Add bucket id to the link and then add bucket text to the link
-  aElement.setAttribute('href', "/bucket/" + bucketObj.bucketId);
+  aElement.setAttribute('href', '/bucket/' + bucketObj.bucketId);
   aElement.appendChild(textnode);
 
   // Add the link to the list element
   liElement.appendChild(aElement);
 
   // Add the list element to the list
-  document.getElementById("bucket-list").appendChild(liElement);
+  document.getElementById('bucket-list').appendChild(liElement);
 }
 
 /**
 * Loads a list of buckets from local storage and adds them to the DOM.
 */
 function loadBucketsLocal() {
-  var bucketList = localStorage.getItem("bucketList");
+  var bucketList = localStorage.getItem('bucketList');
   if (bucketList !== null) {
     bucketList = JSON.parse(bucketList);
-    bucketList.forEach(addBucketDom)
+    bucketList.forEach(addBucketDom);
   }
 }
 
@@ -47,7 +47,7 @@ loadBucketsLocal();
 */
 function addBucket(bucketObj) {
   // get the bucket list from local storage
-  var bucketList = localStorage.getItem("bucketList");
+  var bucketList = localStorage.getItem('bucketList');
 
   // if there is no bucket list create it, else add the new bucket
   if (bucketList === null) {
@@ -57,7 +57,7 @@ function addBucket(bucketObj) {
     bucketList = JSON.parse(bucketList);
     bucketList.push(bucketObj);
   }
-  localStorage.setItem("bucketList", JSON.stringify(bucketList));
+  localStorage.setItem('bucketList', JSON.stringify(bucketList));
 
   // add the bucket to the current DOM
   addBucketDom(bucketObj);

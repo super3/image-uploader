@@ -27,7 +27,6 @@ app.get('/', function (req, res) {
 
 // upload files (images only)
 app.post('/upload', function(req, res){
-
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
@@ -60,6 +59,10 @@ app.post('/upload', function(req, res){
         res.status(415).send('Unsupported Media Type');
         res.end('415');
        }
+  });
+
+  form.on('field', function(name, value) {
+      console.log(name, value);
   });
 
   // every time a file has been uploaded successfully, rename it to it's

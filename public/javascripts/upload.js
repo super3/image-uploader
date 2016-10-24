@@ -63,15 +63,26 @@ function addBucket(bucketObj) {
   addBucketDom(bucketObj);
 }
 
-$('.upload-btn').on('click', function (){
+$('.progress').show();
+$('#chooser').show();
+$('#upload-input').hide();
+
+$('#chooser').on('click', function (){
+    console.log('clicked');
     $('#upload-input').click();
     $('.progress-bar').text('0%');
     $('.progress-bar').width('0%');
+    return false;
 });
 
-$('#upload-input').on('change', function(){
+$('#newThread').on('submit', function(){
 
-  var files = $(this).get(0).files;
+  var files = $('#upload-input', this).get(0).files;
+  var title = $("[name='title']", this);
+  var comment = $("[name='comment']", this);
+
+  console.log(title.val());
+  console.log(comment.val());
 
   if (files.length > 0){
     // create a FormData object which will be sent as the data payload
@@ -85,6 +96,9 @@ $('#upload-input').on('change', function(){
       // add the files to formData object for the data payload
       formData.append('uploads[]', file, file.name);
     }
+
+    formData.append('comment', comment.val());
+    formData.append('title', title.val());
 
     $.ajax({
       url: '/upload',
@@ -101,10 +115,10 @@ $('#upload-input').on('change', function(){
             bucketId: response.bucketId,
             fileCount: files.length,
             fileSize: response.totalFileSize
-          }
+          };
 
           // add to local storage and the DOM
-          addBucket(bucketObj)
+          addBucket(bucketObj);
       },
       xhr: function() {
         // create an XMLHttpRequest
@@ -136,4 +150,6 @@ $('#upload-input').on('change', function(){
     });
 
   }
+
+  return false;
 });

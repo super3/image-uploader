@@ -58,6 +58,10 @@ h2 {
 }
 
 #upload-input {
+  margin-bottom: 15px;
+}
+
+#chooser, .progress {
   display: none;
 }
 

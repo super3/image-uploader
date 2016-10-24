@@ -1,7 +1,7 @@
 {
-  "name": "file-uploader",
+  "name": "image-uploader",
   "version": "1.0.0",
-  "description": "Sample file-uploader.",
+  "description": "Simple image uploader.",
   "main": "index.js",
   "scripts": {
     "test": "npm run testsuite && npm run linter",

@@ -15,8 +15,9 @@ var config = require('./config.js');
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 
-// setup views and the public directory
+// setup view, uploads, and public directory
 app.set('views', __dirname + '/views');
+app.use('/uploads', express.static('./uploads'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
@@ -24,7 +25,7 @@ app.get('/', function (req, res) {
     res.render('index.html');
 });
 
-// upload
+// upload files (images only)
 app.post('/upload', function(req, res){
 
   // create an incoming form object
@@ -49,11 +50,13 @@ app.post('/upload', function(req, res){
   var totalFileSize = 0;
   var cancelled = false;
 
-
+  // if the client somehow sneeks something thats not an image,
+  // then cancel the upload
   form.on('fileBegin', function(name, file) {
     if(file.type !== 'image/jpeg' && file.type !==
      'image/png' && file.type !== 'image/gif') {
         cancelled = true;
+
         res.status(415).send('Unsupported Media Type');
         res.end('415');
        }
@@ -64,9 +67,9 @@ app.post('/upload', function(req, res){
   form.on('file', function(field, file) {
     var correctPath = path.join(form.uploadDir, file.name);
     fs.renameSync(file.path, correctPath);
+
     totalFileSize += utils.getFilesizeInBytes(correctPath);
   });
-
 
   // log any errors that occur
   form.on('error', function(err) {
@@ -87,8 +90,7 @@ app.post('/upload', function(req, res){
 
 });
 
-app.use('/uploads', express.static('./uploads'));
-
+// display all files in a bucket
 app.get('/bucket/:bucketId', function(req, res){
   var bucketId = req.params.bucketId;
 
@@ -107,7 +109,6 @@ app.get('/bucket/:bucketId', function(req, res){
   };
 
   var result = _getAllFilesFromFolder(__dirname + '/uploads/' + bucketId);
-
   res.render('bucket.html', {files:result});
 });
 

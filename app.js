@@ -23,10 +23,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
 app.get('/', function (req, res) {
-    var threads = db.findIndexThreads();
-    console.log(threads);
-
-    res.render('index.html');
+    db.findIndexThreads(function (err, threads){
+        if (err) {
+          res.status(500).send('Internal server error');
+          res.end();
+          return;
+        }
+        res.render('index.html', {threads: threads});
+    });
 });
 
 // upload files (images only)

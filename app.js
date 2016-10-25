@@ -9,6 +9,7 @@ var path = require('path');
 var formidable = require('formidable');
 var mongoose = require('mongoose');
 var utils = require('./lib/utils.js');
+var db = require('./lib/db.js');
 var config = require('./config.js');
 
 // register '.html' extension with The Mustache Express
@@ -22,11 +23,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
 app.get('/', function (req, res) {
+    var threads = db.findIndexThreads();
+    console.log(threads);
+
     res.render('index.html');
 });
 
 // upload files (images only)
 app.post('/upload', function(req, res){
+
   // create an incoming form object
   var form = new formidable.IncomingForm();
 

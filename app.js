@@ -1,18 +1,22 @@
 'use strict';
 
+// get express
 var express = require('express');
 var app = express();
-var mustacheExpress = require('mustache-express');
 
+// get external modules
 var fs = require('fs');
 var path = require('path');
 var formidable = require('formidable');
 var mongoose = require('mongoose');
+
+// get internal modules
 var utils = require('./lib/utils.js');
 var db = require('./lib/db.js');
 var config = require('./config.js');
 
 // register '.html' extension with The Mustache Express
+var mustacheExpress = require('mustache-express');
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 
@@ -23,17 +27,21 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
 app.get('/', function (req, res) {
+
     db.findIndexThreads(function (err, threads){
         if (err) {
           res.status(500).send('Internal server error');
           res.end();
+
           return;
         }
         res.render('index.html', {threads: threads});
     });
+
 });
 
 // upload files (images only)
+// jshint maxstatements: 20
 app.post('/upload', function(req, res){
 
   // create an incoming form object
@@ -81,6 +89,7 @@ app.post('/upload', function(req, res){
     fs.renameSync(file.path, correctPath);
 
     totalFileSize += utils.getFilesizeInBytes(correctPath);
+
   });
 
   // log any errors that occur

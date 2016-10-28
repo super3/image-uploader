@@ -120,7 +120,7 @@ app.post('/upload', function(req, res){
         if (firstPost) {
           console.log('entry' + title);
           db.createThread(entry.imageId, threadId, title,
-             comment, true)
+             comment, true);
           firstPost = false;
           lastPostId = entry.imageId;
         }

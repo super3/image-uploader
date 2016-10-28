@@ -30,6 +30,25 @@ describe('App', function() {
 
     api.post('/upload')
             .attach('samplefile', tmpFile)
+            .field('title', 'A sample title.')
+            .field('comment', 'A sample comment.')
+            .expect(200, done);
+  });
+
+  it('upload multiple image files', function(done) {
+    // create sample data
+
+    var tmpFile = os.tmpDir() + '/sample.jpg';
+    fs.writeFileSync(tmpFile, sampleData);
+
+    var tmpFile2 = os.tmpDir() + '/sample2.jpg';
+    fs.writeFileSync(tmpFile2, sampleData);
+
+    api.post('/upload')
+            .attach('samplefile', tmpFile)
+            .attach('samplefile2', tmpFile2)
+            .field('title', 'A sample title.')
+            .field('comment', 'A sample comment.')
             .expect(200, done);
   });
 

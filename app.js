@@ -73,14 +73,14 @@ app.post('/upload', function(req, res){
   });
 
   form.on('field', function(name, value) {
-      console.log(name, value);
+      //console.log(name, value);
+      console.log('1');
   });
 
   // every time a file has been uploaded successfully, rename it to it's
   // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
-    console.log('field' + field);
-
+    console.log('field', field);
     var correctPath = path.join(form.uploadDir, file.name);
     fs.renameSync(file.path, correctPath);
 

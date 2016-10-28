@@ -58,9 +58,9 @@ describe('App', function() {
 
   it('bucket page should return a 200 response', function(done) {
     var allFiles = _getAllFilesFromFolder('uploads');
-    var bucketId = allFiles[0].split('/')[1];
+    var threadId = allFiles[0].split('/')[1];
 
-    api.get('/bucket/' + bucketId)
+    api.get('/thread/' + threadId)
     .set('Accept', 'application/json')
     .expect(200, done);
   });

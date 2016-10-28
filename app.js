@@ -28,13 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 // load the index
 app.get('/', function (req, res) {
 
+    // find the most recent threads and send them to the index
     db.findIndexThreads(function (err, threads){
-        if (err) {
-          res.status(500).send('Internal server error');
-          res.end();
-
-          return;
-        }
         res.render('index.html', {threads: threads});
     });
 
@@ -47,9 +42,12 @@ app.post('/upload', function(req, res){
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
-  // specify that we want to allow the user to upload multiple files
-  // in a single request
+  // allow the user to upload multiple files in a single request
   form.multiples = true;
+
+  // keep track of the total file size and if the upload is cancelled
+  var totalFileSize = 0;
+  var cancelled = false;
 
   // generate a unique bucket id
   var bucketId = mongoose.Types.ObjectId();
@@ -62,11 +60,7 @@ app.post('/upload', function(req, res){
   utils.setupDir(config.uploadDir);
   utils.setupDir(form.uploadDir);
 
-  // keep track of the total file size and if the upload is cancelled
-  var totalFileSize = 0;
-  var cancelled = false;
-
-  // if the client somehow sneeks something thats not an image,
+  // if the client somehow sneeks in something thats not an image,
   // then cancel the upload
   form.on('fileBegin', function(name, file) {
     if(file.type !== 'image/jpeg' && file.type !==
@@ -74,7 +68,7 @@ app.post('/upload', function(req, res){
         cancelled = true;
 
         res.status(415).send('Unsupported Media Type');
-        res.end('415');
+        res.end();
        }
   });
 
@@ -85,6 +79,8 @@ app.post('/upload', function(req, res){
   // every time a file has been uploaded successfully, rename it to it's
   // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
+    console.log('field' + field);
+
     var correctPath = path.join(form.uploadDir, file.name);
     fs.renameSync(file.path, correctPath);
 
@@ -112,8 +108,8 @@ app.post('/upload', function(req, res){
 });
 
 // display all files in a bucket
-app.get('/bucket/:bucketId', function(req, res){
-  var bucketId = req.params.bucketId;
+app.get('/thread/:threadId', function(req, res){
+  var threadId = req.params.threadId;
 
   var _getAllFilesFromFolder = function(dir) {
 
@@ -122,14 +118,15 @@ app.get('/bucket/:bucketId', function(req, res){
     fs.readdirSync(dir).forEach(function(file) {
         results.push({
           name: file,
-          url:  '/uploads/' + bucketId + '/' + file});
+          url:  '/uploads/' + threadId + '/' + file});
     });
 
     return results;
 
   };
 
-  var result = _getAllFilesFromFolder(__dirname + '/uploads/' + bucketId);
+  var result = _getAllFilesFromFolder(__dirname + '/uploads/' + threadId);
+
   res.render('bucket.html', {files:result});
 });
 

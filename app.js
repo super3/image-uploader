@@ -30,6 +30,7 @@ app.get('/', function (req, res) {
 
     // find the most recent threads and send them to the index
     db.findIndexThreads(function (err, threads){
+        console.log(threads);
         res.render('index.html', {threads: threads});
     });
 
@@ -46,15 +47,15 @@ app.post('/upload', function(req, res){
   form.multiples = true;
 
   // keep track of the total file size and if the upload is cancelled
-  var totalFileSize = 0;
+  var uploadedFiles = [];
   var cancelled = false;
 
-  // generate a unique bucket id
-  var bucketId = mongoose.Types.ObjectId();
+  // title and comment field
+   var title = '';
+   var comment = '';
 
   // store all uploads in the /uploads/bucket_id directory
-  var bucketDir = '/uploads/' + bucketId;
-  form.uploadDir = path.join(__dirname, bucketDir);
+  form.uploadDir = path.join(__dirname, config.uploadDir);
 
   // create uploads directory and bucket directory if they doesn't exist
   utils.setupDir(config.uploadDir);
@@ -72,14 +73,32 @@ app.post('/upload', function(req, res){
        }
   });
 
+  form.on('field', function(name, value) {
+    if (name === 'title') {
+      title = value;
+    }
+    else if (name === 'comment') {
+      comment = value;
+    }
+  });
+
   // every time a file has been uploaded successfully, rename it to it's
   // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
-    console.log('field', field);
-    var correctPath = path.join(form.uploadDir, file.name);
-    fs.renameSync(file.path, correctPath);
 
-    totalFileSize += utils.getFilesizeInBytes(correctPath);
+    // create a new id for this image
+    var imageId = mongoose.Types.ObjectId();
+
+    // add to array of uploaded files
+    uploadedFiles.push({
+      fileName: file.name,
+      imageId: imageId,
+      fileSize: utils.getFilesizeInBytes(file.path)
+    });
+
+    // rename
+    var correctPath = path.join(form.uploadDir, imageId.toString());
+    fs.renameSync(file.path, correctPath);
 
   });
 
@@ -91,9 +110,30 @@ app.post('/upload', function(req, res){
 
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
+
+      // create a new id for this thread
+      var threadId = mongoose.Types.ObjectId();
+      var firstPost = true;
+      var lastPostId = '';
+
+      uploadedFiles.forEach(function(entry) {
+        if (firstPost) {
+          console.log('entry' + title);
+          db.createThread(entry.imageId, threadId, title,
+             comment, true)
+          firstPost = false;
+          lastPostId = entry.imageId;
+        }
+        else {
+          db.createThread(entry.imageId, threadId, '',
+           '>> '+ lastPostId, false);
+          lastPostId = entry.imageId;
+        }
+      });
+
       res.end(JSON.stringify({
-        bucketId: bucketId,
-        totalFileSize: totalFileSize})
+        bucketId: 'test',
+        totalFileSize: 123})
       );
   });
 

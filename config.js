@@ -5,5 +5,7 @@ module.exports = {
   mongoHost: 'localhost',
   mongoPort: 27017,
 
-  uploadDir: 'uploads/'
+  uploadDir: 'uploads/',
+
+  threadsOnIndex: 5
 };

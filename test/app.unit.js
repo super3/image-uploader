@@ -36,12 +36,11 @@ describe('App', function() {
   });
 
   it('upload multiple image files', function(done) {
+
     // create sample data
-
     var tmpFile = os.tmpDir() + '/sample.jpg';
-    fs.writeFileSync(tmpFile, sampleData);
-
     var tmpFile2 = os.tmpDir() + '/sample2.jpg';
+    fs.writeFileSync(tmpFile, sampleData);
     fs.writeFileSync(tmpFile2, sampleData);
 
     api.post('/upload')

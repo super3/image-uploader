@@ -3,7 +3,7 @@
 var expect = require('chai').expect;
 var utils = require('../public/javascripts/utils.js');
 
-describe('utils', function() {
+describe('Front Utils', function() {
 
   describe('#humanFileSize', function() {
     it('check 1000 bytes', function() {

@@ -30,7 +30,6 @@ app.get('/', function (req, res) {
 
     // find the most recent threads and send them to the index
     db.findIndexThreads(function (err, threads){
-        console.log(threads);
         res.render('index.html', {threads: threads});
     });
 
@@ -118,9 +117,19 @@ app.post('/upload', function(req, res){
 
       uploadedFiles.forEach(function(entry) {
         if (firstPost) {
-          console.log('entry' + title);
-          db.createThread(entry.imageId, threadId, title,
-             comment, true);
+
+          var partialThread = {
+            imageId: entry.imageId,
+            threadId: threadId,
+            author: 'anonymous',
+            fileName: 'image.jpg',
+            title: title,
+            comment: comment,
+            firstPost: true
+          };
+
+          db.createThread(partialThread);
+
           firstPost = false;
           lastPostId = entry.imageId;
         }

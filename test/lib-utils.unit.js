@@ -6,7 +6,7 @@ var utils = require('../lib/utils.js');
 var fs = require('fs');
 var os = require('os');
 
-describe('utils', function() {
+describe('Backend Utils', function() {
 
   describe('#getFilesizeInBytes', function() {
 

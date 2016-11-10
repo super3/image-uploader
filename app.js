@@ -74,8 +74,8 @@ app.post('/upload', function(req, res){
 
   form.on('field', function(name, value) {
     // experimenting with ternary operators
-    title = (name === 'title') ? title : value;
-    comment = (name === 'comment') ? comment : value;
+    title = (name === 'title') ? value : title;
+    comment = (name === 'comment') ? value : comment;
   });
 
   // every time a file has been uploaded successfully, rename it to it's
@@ -138,8 +138,8 @@ app.post('/upload', function(req, res){
       });
 
       res.end(JSON.stringify({
-        bucketId: 'test',
-        totalFileSize: 123})
+        threadTitle: title,
+        threadId: threadId})
       );
   });
 

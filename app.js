@@ -138,8 +138,8 @@ app.post('/upload', function(req, res){
       });
 
       res.end(JSON.stringify({
-        bucketId: 'test',
-        totalFileSize: 123})
+        threadTitle: title,
+        threadId: threadId})
       );
   });
 

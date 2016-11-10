@@ -2,65 +2,25 @@
 
 /**
 * Adds a bucket object to a list in the DOM.
-* @param {object} bucketObj Object containing metadata for a bucket.
+* @param {object} threadObj Object containing metadata for a thread.
 */
-function addBucketDom(bucketObj) {
-  // Create bucket text that includes bucket id, file count, and file size
-  var bucketText = 'Bucket ' + bucketObj.bucketId + ' (' + bucketObj.fileCount +
-  ' files, ' + Utils.humanFileSize(bucketObj.fileSize) +')';
-
+function addThreadDom(threadObj) {
   // Create list and link elements to add to the DOM
   var liElement=document.createElement('li');
   var aElement=document.createElement('a');
 
   // Add create a textnode with the bucket text
-  var textnode=document.createTextNode(bucketText);
+  var textnode=document.createTextNode(threadObj.threadTitle);
 
   // Add bucket id to the link and then add bucket text to the link
-  aElement.setAttribute('href', '/bucket/' + bucketObj.bucketId);
+  aElement.setAttribute('href', '/thread/' + threadObj.threadId);
   aElement.appendChild(textnode);
 
   // Add the link to the list element
   liElement.appendChild(aElement);
 
   // Add the list element to the list
-  document.getElementById('bucket-list').appendChild(liElement);
-}
-
-/**
-* Loads a list of buckets from local storage and adds them to the DOM.
-*/
-function loadBucketsLocal() {
-  var bucketList = localStorage.getItem('bucketList');
-  if (bucketList !== null) {
-    bucketList = JSON.parse(bucketList);
-    bucketList.forEach(addBucketDom);
-  }
-}
-
-// Load buckets.
-loadBucketsLocal();
-
-/**
-* Adds a bucket object to a list in the DOM.
-* @param {object} bucketObj Object containing metadata for a bucket.
-*/
-function addBucket(bucketObj) {
-  // get the bucket list from local storage
-  var bucketList = localStorage.getItem('bucketList');
-
-  // if there is no bucket list create it, else add the new bucket
-  if (bucketList === null) {
-    bucketList = [bucketObj];
-  }
-  else {
-    bucketList = JSON.parse(bucketList);
-    bucketList.push(bucketObj);
-  }
-  localStorage.setItem('bucketList', JSON.stringify(bucketList));
-
-  // add the bucket to the current DOM
-  addBucketDom(bucketObj);
+  document.getElementById('bucket-list').prepend(liElement);
 }
 
 $('.progress').show();
@@ -111,14 +71,16 @@ $('#newThread').on('submit', function(){
 
           // convert response to bucket object
           var response = JSON.parse(data);
-          var bucketObj = {
-            bucketId: response.bucketId,
-            fileCount: files.length,
-            fileSize: response.totalFileSize
+
+          console.log(data);
+
+          var threadObj = {
+            threadTitle: response.threadTitle,
+            threadId: response.threadId,
           };
 
-          // add to local storage and the DOM
-          addBucket(bucketObj);
+          // add to the DOM
+          addThreadDom(threadObj);
       },
       xhr: function() {
         // create an XMLHttpRequest

@@ -50,8 +50,8 @@ app.post('/upload', function(req, res){
   var cancelled = false;
 
   // title and comment field
-   var title = '';
-   var comment = '';
+  var title = '';
+  var comment = '';
 
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);
@@ -73,12 +73,9 @@ app.post('/upload', function(req, res){
   });
 
   form.on('field', function(name, value) {
-    if (name === 'title') {
-      title = value;
-    }
-    else if (name === 'comment') {
-      comment = value;
-    }
+    // experimenting with ternary operators
+    title = (name === 'title') ? title : value;
+    comment = (name === 'comment') ? comment : value;
   });
 
   // every time a file has been uploaded successfully, rename it to it's

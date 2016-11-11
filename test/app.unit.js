@@ -45,6 +45,16 @@ describe('App', function() {
     });
   });
 
+  it('image page should return a 200 response', function(done) {
+    // grab an image from the most recent id and try to load page
+    db.findIndexThreads(function (err, threads){
+        console.log('/image/' + threads[0].imageId + '/' + threads[0].fileName);
+        api.get('/image/' + threads[0].imageId + '/' + threads[0].fileName)
+        .expect(200, done);
+    });
+  });
+
+
   it('upload an invalid file', function(done) {
     api.post('/upload')
             .attach('invalidfile', utils.createSampleFile('sample.txt'))

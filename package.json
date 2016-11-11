@@ -11,6 +11,10 @@
   },
   "author": "Shawn Wilkinson",
   "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/super3/image-uploader.git"
+  },
   "dependencies": {
     "bluebird": "^3.4.6",
     "express": "^4.14.0",

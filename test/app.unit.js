@@ -8,6 +8,9 @@ var app = require('../app.js');
 var fs = require('fs');
 var os = require('os');
 
+// internal modules
+var db = require('../lib/db.js');
+
 describe('App', function() {
 
   before(function(done) {
@@ -51,36 +54,13 @@ describe('App', function() {
             .expect(200, done);
   });
 
-  // find the bucket id (hacky)
-  var _getAllFilesFromFolder = function(dir) {
 
-    var filesystem = require('fs');
-    var results = [];
-
-    filesystem.readdirSync(dir).forEach(function(file) {
-
-        file = dir+'/'+file;
-        var stat = filesystem.statSync(file);
-
-        if (stat && stat.isDirectory()) {
-            results = results.concat(_getAllFilesFromFolder(file));
-        } else {
-          results.push(file);
-        }
-
+  it('thread page should return a 200 response', function(done) {
+    db.findIndexThreads(function (err, threads){
+        api.get('/thread/' + threads[0].threadId)
+        .set('Accept', 'application/json')
+        .expect(200, done);
     });
-
-    return results;
-
-  };
-
-  it('bucket page should return a 200 response', function(done) {
-    var allFiles = _getAllFilesFromFolder('uploads');
-    var threadId = allFiles[0].split('/')[1];
-
-    api.get('/thread/' + threadId)
-    .set('Accept', 'application/json')
-    .expect(200, done);
   });
 
   it('upload an invalid file', function(done) {

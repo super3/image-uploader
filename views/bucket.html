@@ -16,13 +16,11 @@
     <div class="row buckets">
       <div class="col-xs-12">
         <div class="panel panel-default">
-          <span class="glyphicon glyphicon glyphicon-briefcase"></span>
-          <h2>Files in this Bucket</h2>
           <div class="panel-body">
             <ul>
-              {{#files}}
-              <li><a href="{{url}}">{{name}}</a></li>
-              {{/files}}
+              {{#posts}}
+              <li>{{comment}}</li>
+              {{/posts}}
             </ul>
           </div>
         </div>

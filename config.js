@@ -7,5 +7,5 @@ module.exports = {
 
   uploadDir: 'uploads/',
 
-  threadsOnIndex: 5
+  threadsOnIndex: 10
 };

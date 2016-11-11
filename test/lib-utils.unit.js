@@ -12,8 +12,7 @@ describe('Backend Utils', function() {
 
     // create sample data
     var sampleData = 'HELLO';
-    var tmpFile = os.tmpDir() + '/sample.txt';
-    fs.writeFileSync(tmpFile, sampleData);
+    var tmpFile = utils.createSampleFile('sample.text', sampleData);
 
     it('check small sample file byte size', function() {
       expect(utils.getFilesizeInBytes(tmpFile)).to.equal(sampleData.length);

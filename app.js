@@ -44,6 +44,12 @@ app.get('/thread/:threadId', function(req, res){
 
 });
 
+// display all files in a thread
+app.get('/image/:imageId/:filename', function(req, res){
+  var img = fs.readFileSync('uploads/' + req.params.imageId);
+  res.end(img, 'binary');
+});
+
 // upload files (images only)
 // jshint maxstatements: 20
 app.post('/upload', function(req, res){

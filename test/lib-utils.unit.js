@@ -12,11 +12,7 @@ describe('Backend Utils', function() {
 
     // create sample data
     var sampleData = 'HELLO';
-
-    // get temp file location
     var tmpFile = os.tmpDir() + '/sample.txt';
-
-    // add sample file
     fs.writeFileSync(tmpFile, sampleData);
 
     it('check small sample file byte size', function() {

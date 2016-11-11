@@ -20,9 +20,8 @@ var mustacheExpress = require('mustache-express');
 app.engine('html', mustacheExpress());
 app.set('view engine', 'mustache');
 
-// setup view, uploads, and public directory
+// setup view and public directory
 app.set('views', __dirname + '/views');
-app.use('/uploads', express.static('./uploads'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
@@ -33,6 +32,22 @@ app.get('/', function (req, res) {
         res.render('index.html', {threads: threads});
     });
 
+});
+
+// display all files in a thread
+app.get('/thread/:threadId', function(req, res){
+
+  // find all the posts associated with the thread and sent to page
+  db.findThreadPosts(req.params.threadId, function (err, posts){
+      res.render('thread.html', {posts: posts});
+  });
+
+});
+
+// display all files in a thread
+app.get('/image/:imageId/:filename', function(req, res){
+  var img = fs.readFileSync('uploads/' + req.params.imageId);
+  res.end(img, 'binary');
 });
 
 // upload files (images only)
@@ -131,8 +146,17 @@ app.post('/upload', function(req, res){
           lastPostId = entry.imageId;
         }
         else {
-          db.createThread(entry.imageId, threadId, '',
-           '>> '+ lastPostId, false);
+          var partialThread2 = {
+            imageId: entry.imageId,
+            threadId: threadId,
+            author: 'anonymous',
+            fileName: 'image.jpg',
+            title: '',
+            comment: '>> '+ lastPostId,
+            firstPost: false
+          };
+
+          db.createThread(partialThread2);
           lastPostId = entry.imageId;
         }
       });
@@ -146,29 +170,6 @@ app.post('/upload', function(req, res){
   // parse the incoming request containing the form data
   form.parse(req);
 
-});
-
-// display all files in a bucket
-app.get('/thread/:threadId', function(req, res){
-  var threadId = req.params.threadId;
-
-  var _getAllFilesFromFolder = function(dir) {
-
-    var results = [];
-
-    fs.readdirSync(dir).forEach(function(file) {
-        results.push({
-          name: file,
-          url:  '/uploads/' + threadId + '/' + file});
-    });
-
-    return results;
-
-  };
-
-  var result = _getAllFilesFromFolder(__dirname + '/uploads/' + threadId);
-
-  res.render('bucket.html', {files:result});
 });
 
 // start the server, if running this script alone

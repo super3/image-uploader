@@ -5,8 +5,8 @@ var api = supertest('http://localhost:3000');
 
 /* jshint undef: true */
 var app = require('../app.js');
-var fs = require('fs');
-var os = require('os');
+var db = require('../lib/db.js');
+var utils = require('../lib/utils.js');
 
 describe('App', function() {
 
@@ -16,80 +16,48 @@ describe('App', function() {
 
   it('index should return a 200 response', function(done) {
     api.get('/')
-    .set('Accept', 'application/json')
     .expect(200, done);
   });
 
-  var sampleData = 'HELLO';
-
   it('upload a sample image file', function(done) {
-    // create sample data
-
-    var tmpFile = os.tmpDir() + '/sample.jpg';
-    fs.writeFileSync(tmpFile, sampleData);
-
     api.post('/upload')
-            .attach('samplefile', tmpFile)
+            .attach('samplefile', utils.createSampleFile('sample1.jpg'))
             .field('title', 'A sample title.')
             .field('comment', 'A sample comment.')
             .expect(200, done);
   });
 
   it('upload multiple image files', function(done) {
-
-    // create sample data
-    var tmpFile = os.tmpDir() + '/sample.jpg';
-    var tmpFile2 = os.tmpDir() + '/sample2.jpg';
-    fs.writeFileSync(tmpFile, sampleData);
-    fs.writeFileSync(tmpFile2, sampleData);
-
     api.post('/upload')
-            .attach('samplefile', tmpFile)
-            .attach('samplefile2', tmpFile2)
+            .attach('samplefile', utils.createSampleFile('sample2.jpg'))
+            .attach('samplefile2', utils.createSampleFile('sample3.jpg'))
             .field('title', 'A sample title.')
             .field('comment', 'A sample comment.')
             .expect(200, done);
   });
 
-  // find the bucket id (hacky)
-  var _getAllFilesFromFolder = function(dir) {
 
-    var filesystem = require('fs');
-    var results = [];
-
-    filesystem.readdirSync(dir).forEach(function(file) {
-
-        file = dir+'/'+file;
-        var stat = filesystem.statSync(file);
-
-        if (stat && stat.isDirectory()) {
-            results = results.concat(_getAllFilesFromFolder(file));
-        } else {
-          results.push(file);
-        }
-
+  it('thread page should return a 200 response', function(done) {
+    // grab the most recent thread id and try to load page
+    db.findIndexThreads(function (err, threads){
+        api.get('/thread/' + threads[0].threadId)
+        .expect(200, done);
     });
-
-    return results;
-
-  };
-
-  it('bucket page should return a 200 response', function(done) {
-    var allFiles = _getAllFilesFromFolder('uploads');
-    var threadId = allFiles[0].split('/')[1];
-
-    api.get('/thread/' + threadId)
-    .set('Accept', 'application/json')
-    .expect(200, done);
   });
 
-  it('upload an invalid file', function(done) {
-    // create sample invalid data
-    var tmpFile = os.tmpDir() + '/sample.txt';
-    fs.writeFileSync(tmpFile, sampleData);
+  it('image page should return a 200 response', function(done) {
+    // grab an image from the most recent id and try to load page
+    db.findIndexThreads(function (err, threads){
+        console.log('/image/' + threads[0].imageId + '/' + threads[0].fileName);
+        api.get('/image/' + threads[0].imageId + '/' + threads[0].fileName)
+        .expect(200, done);
+    });
+  });
 
+
+  it('upload an invalid file', function(done) {
     api.post('/upload')
-            .attach('samplefile', tmpFile)
+            .attach('invalidfile', utils.createSampleFile('sample.txt'))
             .expect(415, done);
   });
 });

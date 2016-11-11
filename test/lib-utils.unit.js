@@ -3,9 +3,6 @@
 var expect = require('chai').expect;
 var utils = require('../lib/utils.js');
 
-var fs = require('fs');
-var os = require('os');
-
 describe('Backend Utils', function() {
 
   describe('#getFilesizeInBytes', function() {

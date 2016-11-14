@@ -43,7 +43,7 @@
                   <button class="btn btn-lg btn-success btn-green btn-block" type="submit">Create Thread</button>
                 </div>
               </div>
-              
+
             </form>
 
           </div>
@@ -55,16 +55,17 @@
       {{#threads}}
         <div class="col-sm-6 col-md-4">
           <div class="thumbnail">
-            <img src="" alt="">
+            <img src="/image/{{imageId}}/{{fileName}}" alt="">
             <div class="caption">
               <h3><a href="/thread/{{threadId}}">{{title}}</a></h3>
               <p>{{comment}}</p>
+
             </div>
           </div>
         </div>
       {{/threads}}
     </div>
-    
+
   </div>
 
   <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>

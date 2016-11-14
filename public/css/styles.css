@@ -9,7 +9,7 @@ body {
 }
 
 body {
-  padding-top: 4em;
+  padding-top: 1em;
   text-align: center;
   font-family: 'Lato', sans-serif;
 }
@@ -25,11 +25,6 @@ a {
 
 .title {
   margin-bottom: 0,5em;
-}
-.title-list {
-    margin-bottom: 0.7em;
-    border-bottom: 18px solid #f5f5f5;
-    padding-bottom: 0.7em;
 }
 
 .buckets {
@@ -84,7 +79,7 @@ a {
   color: #9CA3A9;
 }
 
-.panel {
+.panel, .thumbnail {
   padding: 1em 3em;
   border: 0;
   box-shadow: 0 9px 27px rgba(50,50,93,.1);

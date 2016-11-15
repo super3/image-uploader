@@ -1,59 +1,49 @@
-.btn:focus, .upload-btn:focus{
-  outline: 0 !important;
-}
-
 html,
 body {
   height: 100%;
-  background-color: #f1f4f9;
+  background-color: #f9f9f9;
 }
 
-body {
+.navbar {
+  margin-bottom: 1.4em;
+  background-color: #fff;
   padding-top: 1em;
-  text-align: center;
-  font-family: 'Lato', sans-serif;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #eee;
+  border-top: 1px solid #eee;
+}
+.navbar-collapse .container-fluid {
+  padding: 2rem 2.5rem;
+  border-bottom: 1px solid #55595c;
+}
+.navbar-collapse h4 {
+  color: #818a91;
+}
+.navbar-collapse .text-muted {
+  color: #818a91;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  font-weight: 700;
-  color: #2683ff;
+.upload {
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+  background-color: #fff;
+  margin-bottom: 0;
 }
 
-a {
-  color: #2683ff;
-}
-
-.title {
-  margin-bottom: 0,5em;
-}
-
-.buckets {
-  margin-top: 10px;
-}
-
-#bucket-list {
-  text-transform: capitalize;
-}
-
-.btn {
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 1em;
-  letter-spacing: 1px;
-  border-radius: 3px;
-  padding-top: 16px;
-  padding-bottom: 16px;
-  margin-bottom: 2em;
-  border: none;
-  box-shadow: 0 4px 11px #ddd;
-  transition: all 0.24s cubic-bezier(0.24, 0.44, 0.41, 0.91)
-}
 .btn:hover,
 .btn:focus,
 .btn:active,
 .btn.active {
-  border: none;
-  box-shadow: none;
+  outline: 0 !important;
+}
+
+.btn-primary {
+  background-color: #2683ff;
+  border-color: #2683ff;
+}
+.btn-primary:hover .btn-primary:focus {
+  background: #173AE8;
+  border-color: #173AE8;
 }
 
 .btn-green {
@@ -79,21 +69,12 @@ a {
   color: #9CA3A9;
 }
 
-.panel, .thumbnail {
-  padding: 1em 3em;
-  border: 0;
-  box-shadow: 0 9px 27px rgba(50,50,93,.1);
-}
-
-#upload-input {
-  margin-bottom: 15px;
-}
-
 .progress {
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 1em;
+  margin-bottom: 1.4em;
   box-shadow: none;
-  border-radius: 3px;
+  border-radius: 2px;
+  background: #f1f1f1;
 }
 .progress-bar {
   font-size: 12px;
@@ -149,12 +130,35 @@ a {
     color: #BAD7FE;
 }
 
-ol {
-  text-align: left;
-  padding-left: 1em;
+.album {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  background-color: #f7f7f7;
 }
-ol li {
-  line-height: 2.4em;
-  color: #ddd;
-  padding-left: 0.4em;
+.card {
+  margin-bottom: 1.1em;
+}
+.card img {
+  display: block;
+  margin: 0 auto;
+  text-align: center;
+}
+.card-text {
+  font-size: 85%;
+}
+.card a {
+  color: #333;
+}
+.card a:hover {
+  color: #2683ff;
+}
+
+footer {
+  background: #fff;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  margin-top: 1.4em;
+}
+footer p {
+  margin-bottom: .25rem;
 }

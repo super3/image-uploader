@@ -32,14 +32,6 @@ app.get('/', function (req, res) {
         res.render('index.html', {threads: threads});
     });
 
-    //var xhr = new XMLHttpRequest();
-    //xhr.open('GET', '/views/index.html');
-    //xhr.onLoad = function () {
-    //  console.log(xhr.response);
-    //};
-
-    //xhr.send();
-
 });
 
 // display all files in a thread

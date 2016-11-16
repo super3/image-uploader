@@ -20,7 +20,7 @@ function addThreadDom(threadObj, files) {
 
     aElement.appendChild(imgElement);
   };
-  var imgDataURI = fileReader.readAsDataURL(files[0]);
+  fileReader.readAsDataURL(files[0]);
 
   // Add create a textnode with the bucket text
   var textnode=document.createTextNode(threadObj.threadTitle);

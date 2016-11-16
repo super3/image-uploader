@@ -1,33 +1,5 @@
 'use strict';
 
-var dom = require('./javascript/dom.js');
-
-/**
-* Adds a thread to the DOM.
-* @param {object} threadObj Object containing metadata for a thread.
-* @param {object} files Object containing upload file images.
-*/
-function addThreadDom(data, files) {
-
-  // convert response to bucket object
-  var response = JSON.parse(data);
-  var threadObj = {
-    threadTitle: response.threadTitle,
-    threadId: response.threadId,
-  };
-
-  // Create thread card
-  var card = document.createElement('div');
-  card.classList.add('card');
-
-  // Add card link with image
-  card.appendChild(dom.addCardLink(threadObj, files));
-  card.appendChild(dom.addCardBlock(threadObj));
-
-  // Add the card to the DOM
-  document.getElementById('thread-cards').prepend(card);
-}
-
 $('.progress').show();
 $('#chooser').show();
 $('#upload-input').hide();
@@ -72,7 +44,7 @@ $('#newThread').on('submit', function(){
       processData: false,
       contentType: false,
       success: function(data){
-          addThreadDom(data, files);
+          dom.addThreadDom(data, files);
       },
       xhr: function() {
         // create an XMLHttpRequest

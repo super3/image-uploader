@@ -1,6 +1,6 @@
-'use strict'
+'use strict';
 
-var Utils = {}
+var Utils = {};
 
 /**
 * Converts bytes into a human readable file size.
@@ -22,10 +22,10 @@ Utils.humanFileSize = function humanFileSize(bytes, si) {
         ++u;
     } while(Math.abs(bytes) >= thresh && u < units.length - 1);
     return bytes.toFixed(1)+' '+units[u];
-}
+};
 
 if( typeof module !== 'undefined' ) {
   module.exports = {
     humanFileSize: Utils.humanFileSize
-  }
+  };
 }

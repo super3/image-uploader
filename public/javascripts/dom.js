@@ -62,3 +62,38 @@ dom.addCardBlock = function addCardBlock(threadObj) {
 
   return cardBlock;
 };
+
+/**
+* Adds a thread to the DOM.
+* @param {object} threadObj Object containing metadata for a thread.
+* @param {object} files Object containing upload file images.
+*/
+dom.addThreadDom = function addThreadDom(data, files) {
+
+  // convert response to bucket object
+  var response = JSON.parse(data);
+  var threadObj = {
+    threadTitle: response.threadTitle,
+    threadId: response.threadId,
+  };
+
+  // Create thread card
+  var card = document.createElement('div');
+  card.classList.add('card');
+
+  // Add card link with image
+  card.appendChild(dom.addCardLink(threadObj, files));
+  card.appendChild(dom.addCardBlock(threadObj));
+
+  // Add the card to the DOM
+  document.getElementById('thread-cards').prepend(card);
+};
+
+if( typeof module !== 'undefined' ) {
+  module.exports = {
+    addCardLink: dom.addCardLink,
+    addCardText: dom.addCardText,
+    addCardBlock: dom.addCardBlock,
+    addThreadDom: dom.addThreadDom
+  };
+}

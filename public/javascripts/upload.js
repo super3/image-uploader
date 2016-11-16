@@ -6,7 +6,7 @@
 */
 function addThreadDom(threadObj) {
   // Create list and link elements to add to the DOM
-  var liElement=document.createElement('li');
+  var divElement=document.createElement('div');
   var aElement=document.createElement('a');
 
   // Add create a textnode with the bucket text
@@ -17,10 +17,10 @@ function addThreadDom(threadObj) {
   aElement.appendChild(textnode);
 
   // Add the link to the list element
-  liElement.appendChild(aElement);
+  divElement.appendChild(aElement);
 
   // Add the list element to the list
-  document.getElementById('bucket-list').prepend(liElement);
+  document.getElementById('card-columns').prepend(divElement);
 }
 
 $('.progress').show();

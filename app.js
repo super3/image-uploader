@@ -174,7 +174,7 @@ app.post('/upload', function(req, res){
 // start the server, if running this script alone
 if (require.main === module) {
   /* istanbul ignore next */
-  app.listen(80, function(){
+  app.listen(3000, function(){
     console.log('Server listening on port 3000...');
   });
 }

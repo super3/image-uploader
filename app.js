@@ -32,6 +32,14 @@ app.get('/', function (req, res) {
         res.render('index.html', {threads: threads});
     });
 
+    //var xhr = new XMLHttpRequest();
+    //xhr.open('GET', '/views/index.html');
+    //xhr.onLoad = function () {
+    //  console.log(xhr.response);
+    //};
+
+    //xhr.send();
+
 });
 
 // display all files in a thread
@@ -46,8 +54,7 @@ app.get('/thread/:threadId', function(req, res){
 
 // display all files in a thread
 app.get('/image/:imageId/:filename', function(req, res){
-  var img = fs.readFileSync('uploads/' + req.params.imageId);
-  res.end(img, 'binary');
+  res.sendFile( __dirname + '/uploads/' + req.params.imageId);
 });
 
 // upload files (images only)

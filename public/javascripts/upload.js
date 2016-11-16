@@ -1,64 +1,89 @@
 'use strict';
 
 /**
-* Adds a bucket object to a list in the DOM.
+* Returns card link and image.
 * @param {object} threadObj Object containing metadata for a thread.
+* @param {object} files Object containing upload file images.
 */
-function addThreadDom(threadObj, files) {
-  // Create list and link elements to add to the DOM
-  var divElement = document.createElement('div');
-  divElement.classList.add('card');
+function addCardLink(threadObj, files) {
+  var cardLink = document.createElement('a');
+  var cardImage = document.createElement('img');
 
-  var aElement = document.createElement('a');
-  var imgElement = document.createElement('img');
-
+  // Pull the first image direct from upload so we can display it quickly
   var fileReader = new FileReader();
   fileReader.onload = function () {
-    imgElement.src = fileReader.result;
-    imgElement.classList.add('card-img-top');
-    imgElement.classList.add('img-fluid');
-
-    aElement.appendChild(imgElement);
+    cardImage.src = fileReader.result;
+    cardImage.classList.add('card-img-top');
+    cardImage.classList.add('img-fluid');
+    cardLink.appendChild(cardImage);
   };
   fileReader.readAsDataURL(files[0]);
 
-  // Add create a textnode with the bucket text
-  var textnode=document.createTextNode(threadObj.threadTitle);
+  // Set link and add to link to card
+  cardLink.setAttribute('href', '/thread/' + threadObj.threadId);
 
-  // Add bucket id to the link and then add bucket text to the link
-  aElement.setAttribute('href', '/thread/' + threadObj.threadId);
-  //aElement.appendChild(textnode);
+  return cardLink;
+}
 
-  // Add the link to the list element
-  divElement.appendChild(aElement);
+/**
+* Returns card text with 'Uploaded 0 mins ago'
+*/
+function addCardText() {
+  var cardText = document.createElement('p');
+  var cardTime= document.createElement('small');
+  cardText.classList.add('card-text');
+  cardTime.classList.add('text-muted');
+  cardTime.innerHTML = 'Uploaded 0 mins ago';
+  cardText.appendChild(cardTime);
 
-  var divElement2 = document.createElement('div');
-  divElement2.classList.add('card-block');
-  var h4Element = document.createElement('h4');
-  h4Element.classList.add('card-title');
-  var aElement2 = document.createElement('a');
-  aElement2.classList.add('thumbnail-title');
-  aElement2.innerHTML = threadObj.threadTitle;
-  aElement2.setAttribute('href', '/thread/' + threadObj.threadId);
-  h4Element.appendChild(aElement2);
-  divElement2.appendChild(h4Element);
+  return cardText;
+}
 
-  var pElement = document.createElement('p');
-  var smallElement = document.createElement('small');
-  pElement.classList.add('card-text');
-  smallElement.classList.add('text-muted');
-  smallElement.innerHTML = 'Uploaded 0 mins ago'
+/**
+* Returns card block.
+* @param {object} threadObj Object containing metadata for a thread.
+*/
+function addCardBlock(threadObj) {
+  var cardBlock = document.createElement('div');
+  cardBlock.classList.add('card-block');
+  var title = document.createElement('h4');
+  title.classList.add('card-title');
+  var titleLink = document.createElement('a');
 
-  pElement.appendChild(smallElement);
-  divElement2.appendChild(pElement);
+  titleLink.classList.add('thumbnail-title');
+  titleLink.innerHTML = threadObj.threadTitle;
+  titleLink.setAttribute('href', '/thread/' + threadObj.threadId);
+  title.appendChild(titleLink);
+  cardBlock.appendChild(title);
+  cardBlock.appendChild(addCardText());
 
-  divElement.appendChild(divElement2);
+  return cardBlock;
+}
 
+/**
+* Adds a thread to the DOM.
+* @param {object} threadObj Object containing metadata for a thread.
+* @param {object} files Object containing upload file images.
+*/
+function addThreadDom(data, files) {
 
+  // convert response to bucket object
+  var response = JSON.parse(data);
+  var threadObj = {
+    threadTitle: response.threadTitle,
+    threadId: response.threadId,
+  };
 
+  // Create thread card
+  var card = document.createElement('div');
+  card.classList.add('card');
 
-  // Add the list element to the list
-  document.getElementById('thread-cards').prepend(divElement);
+  // Add card link with image
+  card.appendChild(addCardLink(threadObj, files));
+  card.appendChild(addCardBlock(threadObj));
+
+  // Add the card to the DOM
+  document.getElementById('thread-cards').prepend(card);
 }
 
 $('.progress').show();
@@ -105,20 +130,7 @@ $('#newThread').on('submit', function(){
       processData: false,
       contentType: false,
       success: function(data){
-          console.log('upload successful!\n' + data);
-
-          // convert response to bucket object
-          var response = JSON.parse(data);
-
-          console.log(data);
-
-          var threadObj = {
-            threadTitle: response.threadTitle,
-            threadId: response.threadId,
-          };
-
-          // add to the DOM
-          addThreadDom(threadObj, files);
+          addThreadDom(data, files);
       },
       xhr: function() {
         // create an XMLHttpRequest

@@ -7,7 +7,8 @@
     "test": "npm run testsuite && npm run linter",
     "testsuite": "./node_modules/.bin/mocha test/** --recursive",
     "coverage": "./node_modules/.bin/istanbul cover ./node_modules/.bin/_mocha -- --recursive",
-    "linter": "./node_modules/.bin/jshint --config .jshintrc ./app.js ./lib ./test"
+    "linter": "./node_modules/.bin/jshint --config .jshintrc ./app.js ./lib ./test",
+    "start": "node app.js"
   },
   "author": "Shawn Wilkinson",
   "license": "AGPL-3.0",
@@ -15,7 +16,6 @@
     "type": "git",
     "url": "git://github.com/super3/image-uploader.git"
   },
-  "scripts": {"start": "node app.js"},
   "dependencies": {
     "bluebird": "^3.4.6",
     "express": "^4.14.0",

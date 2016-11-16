@@ -44,9 +44,9 @@ app.get('/thread/:threadId', function(req, res){
 
 });
 
-// display all files in a thread
+// send a single file image to the browser
 app.get('/image/:imageId/:filename', function(req, res){
-  res.sendFile( __dirname + '/uploads/' + req.params.imageId);
+  res.sendFile( __dirname + '/' + config.uploadDir + req.params.imageId);
 });
 
 // upload files (images only)

@@ -4,23 +4,61 @@
 * Adds a bucket object to a list in the DOM.
 * @param {object} threadObj Object containing metadata for a thread.
 */
-function addThreadDom(threadObj) {
+function addThreadDom(threadObj, files) {
   // Create list and link elements to add to the DOM
-  var divElement=document.createElement('div');
-  var aElement=document.createElement('a');
+  var divElement = document.createElement('div');
+  divElement.classList.add('card');
+
+  var aElement = document.createElement('a');
+  var imgElement = document.createElement('img');
+
+  var fileReader = new FileReader();
+  fileReader.onload = function () {
+    imgElement.src = fileReader.result;
+    imgElement.classList.add('card-img-top');
+    imgElement.classList.add('img-fluid');
+
+    aElement.appendChild(imgElement);
+  };
+  var imgDataURI = fileReader.readAsDataURL(files[0]);
 
   // Add create a textnode with the bucket text
   var textnode=document.createTextNode(threadObj.threadTitle);
 
   // Add bucket id to the link and then add bucket text to the link
   aElement.setAttribute('href', '/thread/' + threadObj.threadId);
-  aElement.appendChild(textnode);
+  //aElement.appendChild(textnode);
 
   // Add the link to the list element
   divElement.appendChild(aElement);
 
+  var divElement2 = document.createElement('div');
+  divElement2.classList.add('card-block');
+  var h4Element = document.createElement('h4');
+  h4Element.classList.add('card-title');
+  var aElement2 = document.createElement('a');
+  aElement2.classList.add('thumbnail-title');
+  aElement2.innerHTML = threadObj.threadTitle;
+  aElement2.setAttribute('href', '/thread/' + threadObj.threadId);
+  h4Element.appendChild(aElement2);
+  divElement2.appendChild(h4Element);
+
+  var pElement = document.createElement('p');
+  var smallElement = document.createElement('small');
+  pElement.classList.add('card-text');
+  smallElement.classList.add('text-muted');
+  smallElement.innerHTML = 'Uploaded 0 mins ago'
+
+  pElement.appendChild(smallElement);
+  divElement2.appendChild(pElement);
+
+  divElement.appendChild(divElement2);
+
+
+
+
   // Add the list element to the list
-  document.getElementById('card-columns').prepend(divElement);
+  document.getElementById('thread-cards').prepend(divElement);
 }
 
 $('.progress').show();
@@ -80,7 +118,7 @@ $('#newThread').on('submit', function(){
           };
 
           // add to the DOM
-          addThreadDom(threadObj);
+          addThreadDom(threadObj, files);
       },
       xhr: function() {
         // create an XMLHttpRequest

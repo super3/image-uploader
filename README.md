@@ -24,6 +24,11 @@ npm start
 mocha
 ```
 
+### Coverage
+```
+npm run coverage
+```
+
 ### Linting
 ```
 npm run linter

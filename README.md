@@ -11,12 +11,12 @@ npm install
 ### Running
 Start MongoDB (Windows):
 ```
-C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe --dbpath <path to dir>
+C:\Program Files\MongoDB\Server\3.2\bin\mongod.exe
 ```
 
 Start the app:
 ```
-node app.js
+npm start
 ```
 
 ### Testing

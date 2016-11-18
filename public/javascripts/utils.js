@@ -56,7 +56,7 @@ Utils.objectIdAgo = function objectIdAgo(objectId) {
 }
 
   var dateObj = dateFromObjectId(objectId);
-  return timeSince(dateObj);
+  return timeSince(dateObj) + ' ago';
 };
 
 if( typeof module !== 'undefined' ) {

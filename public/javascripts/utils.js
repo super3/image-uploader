@@ -13,8 +13,7 @@ Utils.humanFileSize = function humanFileSize(bytes, si) {
     if(Math.abs(bytes) < thresh) {
         return bytes + ' B';
     }
-    var units = si
-        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
+    var units = si ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
         : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
     var u = -1;
     do {
@@ -35,25 +34,25 @@ Utils.objectIdAgo = function humanFileSize(objectId) {
     var interval = Math.floor(seconds / 31536000);
 
     if (interval > 1) {
-        return interval + " years";
+        return interval + ' years';
     }
     interval = Math.floor(seconds / 2592000);
     if (interval > 1) {
-        return interval + " months";
+        return interval + ' months';
     }
     interval = Math.floor(seconds / 86400);
     if (interval > 1) {
-        return interval + " days";
+        return interval + ' days';
     }
     interval = Math.floor(seconds / 3600);
     if (interval > 1) {
-        return interval + " hours";
+        return interval + ' hours';
     }
     interval = Math.floor(seconds / 60);
     if (interval > 1) {
-        return interval + " minutes";
+        return interval + ' minutes';
     }
-    return Math.floor(seconds) + " seconds";
+    return Math.floor(seconds) + ' seconds';
 }
 
   var dateObj = dateFromObjectId(objectId);

@@ -29,6 +29,12 @@ app.get('/', function (req, res) {
 
     // find the most recent threads and send them to the index
     db.findIndexThreads(function (err, threads){
+
+        for (var thread in threads) {
+          var timeAgo = utils.objectIdAgo(threads[thread].threadId.toString());
+          threads[thread].ago = timeAgo;
+        }
+
         res.render('index.html', {threads: threads});
     });
 

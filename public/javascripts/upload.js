@@ -12,11 +12,6 @@ $('#chooser').on('click', function (){
     return false;
 });
 
-$('.text-muted').each(function(){
-    var cardTime = $(this).text();
-    $(this).text(Utils.objectIdAgo(cardTime));
-});
-
 $('#newThread').on('submit', function(){
 
   var files = $('#upload-input', this).get(0).files;

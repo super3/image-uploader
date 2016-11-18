@@ -96,21 +96,24 @@ app.post('/upload', function(req, res){
   // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
 
-    // create a new id for this image
-    var imageId = mongoose.Types.ObjectId();
+  if (!cancelled) {
+      // create a new id for this image
+      var imageId = mongoose.Types.ObjectId();
 
-    // add to array of uploaded files
-    uploadedFiles.push({
-      fileName: file.name,
-      imageId: imageId,
-      fileSize: utils.getFilesizeInBytes(file.path)
-    });
+      // add to array of uploaded files
+      uploadedFiles.push({
+        fileName: file.name,
+        imageId: imageId,
+        fileSize: utils.getFilesizeInBytes(file.path)
+      });
 
-    // rename
-    var correctPath = path.join(form.uploadDir, imageId.toString());
-    fs.renameSync(file.path, correctPath);
+      // rename
+      var correctPath = path.join(form.uploadDir, imageId.toString());
+      fs.renameSync(file.path, correctPath);
+    }
 
   });
+
 
   // log any errors that occur
   form.on('error', function(err) {
@@ -121,6 +124,7 @@ app.post('/upload', function(req, res){
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
 
+  if (!cancelled) {
       // create a new id for this thread
       var threadId = mongoose.Types.ObjectId();
       var firstPost = true;
@@ -164,6 +168,7 @@ app.post('/upload', function(req, res){
         threadTitle: title,
         threadId: threadId})
       );
+    }
   });
 
   // parse the incoming request containing the form data

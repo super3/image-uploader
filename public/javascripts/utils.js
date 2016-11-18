@@ -23,7 +23,7 @@ Utils.humanFileSize = function humanFileSize(bytes, si) {
     return bytes.toFixed(1)+' '+units[u];
 };
 
-Utils.objectIdAgo = function humanFileSize(objectId) {
+Utils.objectIdAgo = function objectIdAgo(objectId) {
   var dateFromObjectId = function (objectId) {
     return new Date(parseInt(objectId.substring(0, 8), 16) * 1000);
   };

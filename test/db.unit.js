@@ -33,7 +33,7 @@ describe('Database', function() {
     db.createThread(testReply, function(){});
 
     db.imageModel.find({ threadId: testThreadId }, function (err, kittens) {
-      if (err) return console.error(err);
+      if (err) { return console.error(err); }
       console.log(kittens);
     });
 

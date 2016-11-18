@@ -18,6 +18,13 @@ describe('Front Utils', function() {
       expect(utils.humanFileSize(10)).to.equal('10 B');
     });
 
+    describe('#objectIdAgo', function() {
+      it('check 1000 bytes', function() {
+        expect(utils.objectIdAgo('582e04ba4a00010e18633db2'));
+      });
+
+  });
+
   });
 
 });

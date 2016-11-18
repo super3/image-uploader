@@ -44,7 +44,7 @@
     </div>
     <div class="navbar navbar-full navbar-static-top navbar-light">
       <div class="container-fluid">
-        <a href="#" class="navbar-brand">Image Uploader</a>
+        <a href="/" class="navbar-brand">Image Uploader</a>
         <button class="btn btn-primary text-right float-xs-right" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header" aria-expanded="false" aria-label="Toggle navigation">+ New Image</button>
       </div>
     </div>
@@ -59,7 +59,7 @@
               <div class="card-block">
                 <h4 class="card-title"><a href="/thread/{{threadId}}" class="thumbnail-title">{{title}}</a></h4>
                 <p class="card-text">{{comment}}</p>
-                <p class="card-text"><small class="text-muted">Uploaded 3 mins ago</small></p>
+                <p class="card-text"><small class="text-muted">{{ago}}</small></p>
               </div>
             </div>
             {{/posts}}

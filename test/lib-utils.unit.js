@@ -20,6 +20,8 @@ describe('Backend Utils', function() {
   describe('#objectIdAgo', function() {
 
     it('check timeSince function', function() {
+      console.log(utils.timeSince());
+    });
 
   });
 

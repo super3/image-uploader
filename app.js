@@ -31,7 +31,7 @@ app.get('/', function (req, res) {
     db.findIndexThreads(function (err, threads){
 
         for (var thread in threads) {
-          var timeAgo = utils.objectIdAgo(threads[thread].threadId.toString());
+          var timeAgo = utils.objectIdAgo(threads[thread].imageId.toString());
           threads[thread].ago = timeAgo;
         }
 
@@ -45,6 +45,12 @@ app.get('/thread/:threadId', function(req, res){
 
   // find all the posts associated with the thread and sent to page
   db.findThreadPosts(req.params.threadId, function (err, posts){
+
+      for (var post in posts) {
+        var timeAgo = utils.objectIdAgo(posts[post].imageId.toString());
+        posts[post].ago = timeAgo;
+      }
+
       res.render('thread.html', {posts: posts});
   });
 

@@ -2,7 +2,7 @@
   "name": "image-uploader",
   "version": "1.0.0",
   "engines": {
-  "node": "6.9.1"
+    "node": "6.9.1"
   },
   "description": "Simple image uploader.",
   "main": "index.js",

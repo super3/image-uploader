@@ -8,7 +8,7 @@ var dom = {};
 * @param {object} files Object containing upload file images.
 */
 
-dom.addCardLink = function addCardLink(threadObj, files) {
+dom.addCardLink = function addCardLink(threadObj, file) {
   var cardLink = document.createElement('a');
   var cardImage = document.createElement('img');
 
@@ -20,7 +20,7 @@ dom.addCardLink = function addCardLink(threadObj, files) {
     cardImage.classList.add('img-fluid');
     cardLink.appendChild(cardImage);
   };
-  fileReader.readAsDataURL(files[0]);
+  fileReader.readAsDataURL(file);
 
   // Set link and add to link to card
   cardLink.setAttribute('href', '/thread/' + threadObj.threadId);

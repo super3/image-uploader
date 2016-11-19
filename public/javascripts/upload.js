@@ -1,17 +1,5 @@
 'use strict';
 
-$('.progress').show();
-$('#chooser').show();
-$('#upload-input').hide();
-
-$('#chooser').on('click', function (){
-    console.log('clicked');
-    $('#upload-input').click();
-    $('.progress-bar').text('0%');
-    $('.progress-bar').width('0%');
-    return false;
-});
-
 $('#newThread').on('submit', function(){
 
   var files = $('#upload-input', this).get(0).files;

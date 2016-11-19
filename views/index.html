@@ -17,9 +17,6 @@
           <div class="row">
             <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1>Submit Thread</h1>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar"></div>
-              </div>
               <form action="/upload" method="post" enctype='multipart/form-data' id='newThread' class="dropzone">
                 <div class="form-group">
                   <input type="text" class="form-control" name="title" placeholder="Title">
@@ -28,11 +25,7 @@
                   <textarea class="form-control" rows="3" name="comment" placeholder="Comment"></textarea>
                 </div>
                 <div class="row">
-                  <div class="col-xs-12 col-sm-6">
-                    <button class="btn btn-lg btn-orange btn-block" id="chooser">Choose Image(s)</button>
-                    <input id="upload-input" type="file" name="uploads[]" multiple="multiple" accept="image/*" />
-                  </div>
-                  <div class="col-xs-12 col-sm-6">
+                  <div class="col-xs-12 col-sm-12">
                     <button class="btn btn-lg btn-green btn-block" type="submit">Submit Thread</button>
                   </div>
                 </div>

@@ -28,6 +28,12 @@ Dropzone.options.newThread = {
       $('.meter').delay(999).slideUp(999);
     });
 
+    self.on("complete", function(file) {
+      console.log(file);
+      dom.addThreadDom(file.xhr.response, file);
+      console.log('complete upload');
+    });
+
     // On removing file
     self.on("removedfile", function(file) {
       console.log(file);

@@ -7,7 +7,6 @@ $('#newThread').on('submit', function(){
   var title = $('[name=\'title\']', this);
   var comment = $('[name=\'comment\']', this);
 
-  console.log(title.val());
   // make sure we don't have an empty title
   if (title.val().length > 0){
     // create a FormData object which will be sent as the data payload

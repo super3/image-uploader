@@ -1,4 +1,5 @@
 'use strict';
+/*globals $:false */
 
 $('#newThread').on('submit', function(){
 

@@ -91,9 +91,6 @@ dom.addThreadDom = function addThreadDom(data, files) {
 
 if( typeof module !== 'undefined' ) {
   module.exports = {
-    addCardLink: dom.addCardLink,
-    addCardText: dom.addCardText,
-    addCardBlock: dom.addCardBlock,
     addThreadDom: dom.addThreadDom
   };
 }

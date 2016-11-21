@@ -30,7 +30,8 @@ app.get('/', function(req, res) {
   // find the most recent threads and send them to the index
   db.findIndexThreads(function(err, threads) {
     threads = utils.addTimeAgo(threads);
-    res.render('index.html', { threads: threads });
+    var newThreadId = mongoose.Types.ObjectId();
+    res.render('index.html', { threads: threads, newThreadId: newThreadId });
   });
 
 });
@@ -53,7 +54,7 @@ app.get('/image/:imageId/:filename', function(req, res) {
 
 // upload files (images only)
 // jshint maxstatements: 20
-app.post('/upload', function(req, res) {
+app.post('/upload/:threadId', function(req, res) {
 
   // create an incoming form object
   var form = new formidable.IncomingForm();
@@ -68,6 +69,7 @@ app.post('/upload', function(req, res) {
   // title and comment field
   var title = '';
   var comment = '';
+  var threadId = req.params.threadId;
 
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);
@@ -128,7 +130,6 @@ app.post('/upload', function(req, res) {
 
     if (!cancelled) {
       // create a new id for this thread
-      var threadId = mongoose.Types.ObjectId();
       var firstPost = true;
       var lastPostId = '';
 

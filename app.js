@@ -25,35 +25,35 @@ app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
 
 // load the index
-app.get('/', function (req, res) {
+app.get('/', function(req, res) {
 
-    // find the most recent threads and send them to the index
-    db.findIndexThreads(function (err, threads){
-        threads = utils.addTimeAgo(threads);
-        res.render('index.html', {threads: threads});
-    });
+  // find the most recent threads and send them to the index
+  db.findIndexThreads(function(err, threads) {
+    threads = utils.addTimeAgo(threads);
+    res.render('index.html', { threads: threads });
+  });
 
 });
 
 // display all files in a thread
-app.get('/thread/:threadId', function(req, res){
+app.get('/thread/:threadId', function(req, res) {
 
   // find all the posts associated with the thread and sent to page
-  db.findThreadPosts(req.params.threadId, function (err, posts){
-      posts = utils.addTimeAgo(posts);
-      res.render('thread.html', {posts: posts});
+  db.findThreadPosts(req.params.threadId, function(err, posts) {
+    posts = utils.addTimeAgo(posts);
+    res.render('thread.html', { posts: posts });
   });
 
 });
 
 // send a single file image to the browser
-app.get('/image/:imageId/:filename', function(req, res){
-  res.sendFile( __dirname + '/' + config.uploadDir + req.params.imageId);
+app.get('/image/:imageId/:filename', function(req, res) {
+  res.sendFile(__dirname + '/' + config.uploadDir + req.params.imageId);
 });
 
 // upload files (images only)
 // jshint maxstatements: 20
-app.post('/upload', function(req, res){
+app.post('/upload', function(req, res) {
 
   // create an incoming form object
   var form = new formidable.IncomingForm();
@@ -79,13 +79,13 @@ app.post('/upload', function(req, res){
   // if the client somehow sneeks in something thats not an image,
   // then cancel the upload
   form.on('fileBegin', function(name, file) {
-    if(file.type !== 'image/jpeg' && file.type !==
-     'image/png' && file.type !== 'image/gif') {
-        cancelled = true;
+    if (file.type !== 'image/jpeg' && file.type !==
+      'image/png' && file.type !== 'image/gif') {
+      cancelled = true;
 
-        res.status(415).send('Unsupported Media Type');
-        res.end();
-       }
+      res.status(415).send('Unsupported Media Type');
+      res.end();
+    }
   });
 
   form.on('field', function(name, value) {
@@ -98,7 +98,7 @@ app.post('/upload', function(req, res){
   // orignal name, and also add it to the total file size
   form.on('file', function(field, file) {
 
-  if (!cancelled) {
+    if (!cancelled) {
       // create a new id for this image
       var imageId = mongoose.Types.ObjectId();
 
@@ -126,7 +126,7 @@ app.post('/upload', function(req, res){
   // once all the files have been uploaded, send a response to the client
   form.on('end', function() {
 
-  if (!cancelled) {
+    if (!cancelled) {
       // create a new id for this thread
       var threadId = mongoose.Types.ObjectId();
       var firstPost = true;
@@ -149,15 +149,14 @@ app.post('/upload', function(req, res){
 
           firstPost = false;
           lastPostId = entry.imageId;
-        }
-        else {
+        } else {
           var partialThread2 = {
             imageId: entry.imageId,
             threadId: threadId,
             author: 'anonymous',
             fileName: 'image.jpg',
             title: '',
-            comment: '>> '+ lastPostId,
+            comment: '>> ' + lastPostId,
             firstPost: false
           };
 
@@ -168,9 +167,10 @@ app.post('/upload', function(req, res){
 
       res.end(JSON.stringify({
         threadTitle: title,
-        threadId: threadId})
-      );
+        threadId: threadId
+      }));
     }
+
   });
 
   // parse the incoming request containing the form data
@@ -181,7 +181,7 @@ app.post('/upload', function(req, res){
 // start the server, if running this script alone
 if (require.main === module) {
   /* istanbul ignore next */
-  app.listen(3000, function(){
+  app.listen(3000, function() {
     console.log('Server listening on port 3000...');
   });
 }

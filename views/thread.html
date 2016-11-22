@@ -18,7 +18,7 @@
           <div class="row">
             <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
               <h1>Submit Thread</h1>
-              <form action="/upload/{{newThreadId}}" method="post" enctype='multipart/form-data' id='newThread' class="dropzone">
+              <form action="/upload/{{newThreadId}}" method="post" enctype="multipart/form-data" id="newThread" class="dropzone">
                 <div class="form-group">
                   <input type="text" class="form-control" name="title" placeholder="Title" required>
                 </div>
@@ -27,6 +27,9 @@
                 </div>
                 <div class="fallback">
                   <input name="file" type="file" multiple />
+                </div>
+                <div class="form-group dropzone-upload">
+                  <div class="dropzone-previews dz-message">Click here or drag and drop images here to upload</div>
                 </div>
                 <div class="form-group">
                   <button class="btn btn-lg btn-green btn-block" type="submit">Submit Thread</button>

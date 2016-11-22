@@ -50,18 +50,20 @@
 
     <section class="post">
       <div class="container-fluid">
-        <div class="row">
-          <div class="col-xs-12">
-            {{#posts}}
-            <div class="card">
-              <a href="/image/{{imageId}}/{{fileName}}"><img src="/image/{{imageId}}/{{fileName}}" alt="{{title}}" class="card-img-top img-fluid"></a>
-              <div class="card-block">
-                <h4 class="card-title"><a href="/thread/{{threadId}}" class="thumbnail-title">{{title}}</a></h4>
-                <p class="card-text">{{comment}}</p>
-                <p class="card-text"><small class="text-muted">{{ago}}</small></p>
+        <div id="thread-cards" class="card-columns">
+          <div class="row">
+            <div class="col-xs-12">
+              {{#posts}}
+              <div class="card">
+                <a href="/image/{{imageId}}/{{fileName}}"><img src="/image/{{imageId}}/{{fileName}}" alt="{{title}}" class="card-img-top img-fluid"></a>
+                <div class="card-block">
+                  <h4 class="card-title"><a href="/thread/{{threadId}}" class="thumbnail-title">{{title}}</a></h4>
+                  <p class="card-text">{{comment}}</p>
+                  <p class="card-text"><small class="text-muted">{{ago}}</small></p>
+                </div>
               </div>
+              {{/posts}}
             </div>
-            {{/posts}}
           </div>
         </div>
       </div>

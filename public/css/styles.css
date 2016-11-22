@@ -86,6 +86,9 @@ body {
   border-radius: 3px;
 }
 
+form {
+  border: 0 !important;
+}
 .form-control {
   height: 48px;
   padding: 10px 14px;
@@ -106,28 +109,38 @@ body {
 }
 
 ::-webkit-input-placeholder {
-    color: #999;
+  color: #999;
 }
 :focus::-webkit-input-placeholder {
-    color: #BAD7FE;
+  color: #BAD7FE;
 }
 :-moz-placeholder {
-    color: #999;
+  color: #999;
 }
 :focus:-moz-placeholder {
-    color: #BAD7FE;
+  color: #BAD7FE;
 }
 ::-moz-placeholder {
-    color: #999;
+  color: #999;
 }
 :focus::-moz-placeholder {
-    color: #BAD7FE;
+  color: #BAD7FE;
 }
 :-ms-input-placeholder {
-    color: #999;
+  color: #999;
 }
 :focus:-ms-input-placeholder {
-    color: #BAD7FE;
+  color: #BAD7FE;
+}
+
+.dropzone-upload {
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  margin-bottom: 1.4em;
+  cursor: pointer;
+}
+.dz-message {
+  color: #999;
 }
 
 .album {

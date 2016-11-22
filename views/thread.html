@@ -11,30 +11,22 @@
   </head>
 
   <body>
+
     <div class="navbar-collapse collapse inverse" id="navbar-header">
       <section class="upload text-xs-center">
         <div class="container">
           <div class="row">
             <div class="col-xs-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-6 offset-lg-3">
-              <h1>Submit Image</h1>
-              <div class="progress">
-                <div class="progress-bar" role="progressbar"></div>
-              </div>
-              <form action="/upload" method="post" enctype='multipart/form-data' id='newThread'>
+              <h1>Submit Thread</h1>
+              <form action="/upload/{{newThreadId}}" method="post" enctype='multipart/form-data' id='newThread' class="dropzone">
                 <div class="form-group">
                   <input type="text" class="form-control" name="title" placeholder="Title">
                 </div>
                 <div class="form-group">
                   <textarea class="form-control" rows="3" name="comment" placeholder="Comment"></textarea>
                 </div>
-                <div class="row">
-                  <div class="col-xs-12 col-sm-6">
-                    <button class="btn btn-lg btn-orange btn-block" id="chooser">Choose Image(s)</button>
-                    <input id="upload-input" type="file" name="uploads[]" multiple="multiple" accept="image/*" />
-                  </div>
-                  <div class="col-xs-12 col-sm-6">
-                    <button class="btn btn-lg btn-green btn-block" type="submit">Submit Image</button>
-                  </div>
+                <div class="form-group">
+                  <button class="btn btn-lg btn-green btn-block" type="submit">Submit Thread</button>
                 </div>
               </form>
             </div>
@@ -42,10 +34,11 @@
         </div>
       </section>
     </div>
+    
     <div class="navbar navbar-full navbar-static-top navbar-light">
       <div class="container-fluid">
-        <a href="/" class="navbar-brand">Image Uploader</a>
-        <button class="btn btn-primary text-right float-xs-right" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header" aria-expanded="false" aria-label="Toggle navigation">+ New Image</button>
+        <a href="#" class="navbar-brand">Image Uploader</a>
+        <button class="btn btn-primary text-right float-xs-right" type="button" data-toggle="collapse" data-target="#navbar-header" aria-controls="navbar-header" aria-expanded="false" aria-label="Toggle navigation">+ New Thread</button>
       </div>
     </div>
 

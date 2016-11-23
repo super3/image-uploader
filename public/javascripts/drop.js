@@ -1,5 +1,4 @@
 'use strict';
-/*globals $:false */
 
 Dropzone.options.newThread = {
 

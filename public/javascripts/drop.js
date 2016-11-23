@@ -1,4 +1,18 @@
 'use strict';
+/*globals $:false */
+
+var numFiles = 0;
+
+function enableSubmit() {
+  var title = document.getElementById('title');
+  var submit = document.getElementById('submit');
+  submit.disabled = (title.value.length === 0 || numFiles === 0);
+}
+
+// make sure at the title is filled
+$('#title').on('input', function() {
+  enableSubmit();
+});
 
 Dropzone.options.newThread = {
 
@@ -13,6 +27,10 @@ Dropzone.options.newThread = {
   // The setting up of the dropzone
   init: function() {
     var self = this;
+
+    // config
+    self.options.addRemoveLinks = true;
+    self.options.dictRemoveFile = 'Delete';
 
     // First change the button to actually tell Dropzone to process the queue.
     this.element.querySelector('button[type=submit]').addEventListener('click',
@@ -41,6 +59,15 @@ Dropzone.options.newThread = {
 
     // New file added
     self.on('addedfile', function(file) {
+      numFiles = this.files.length;
+      enableSubmit();
+      console.log('new file added ', file);
+    });
+
+    // File removed
+    self.on('removedfile', function(file) {
+      numFiles = this.files.length;
+      enableSubmit();
       console.log('new file added ', file);
     });
 

@@ -20,10 +20,10 @@
               <h1>Submit Reply</h1>
               <form action="/upload/{{threadId}}" method="post" enctype="multipart/form-data" id="newThread" class="dropzone">
                 <div class="form-group">
-                  <input type="text" class="form-control" name="title" placeholder="Title" required>
+                  <input type="text" class="form-control" id="title" placeholder="Title (Required)" required>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" rows="3" name="comment" placeholder="Comment"></textarea>
+                  <textarea class="form-control" rows="3" id="comment" placeholder="Comment"></textarea>
                 </div>
                 <div class="fallback">
                   <input name="file" type="file" multiple />
@@ -32,7 +32,7 @@
                   <div class="dropzone-previews dz-message">Click here or drag and drop images here to upload</div>
                 </div>
                 <div class="form-group">
-                  <button class="btn btn-lg btn-green btn-block" type="submit">Submit Reply</button>
+                  <button class="btn btn-lg btn-green btn-block" type="submit" id="submit" disabled>Submit Reply</button>
                 </div>
               </form>
             </div>
@@ -85,7 +85,6 @@
 
     <script src="/javascripts/utils.js"></script>
     <script src="/javascripts/dom.js"></script>
-    <script src="/javascripts/upload.js"></script>
     <script src="/javascripts/drop.js"></script>
 
   </body>

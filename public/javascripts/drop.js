@@ -16,15 +16,17 @@ Dropzone.options.newThread = {
     var self = this;
 
     // First change the button to actually tell Dropzone to process the queue.
-    this.element.querySelector('button[type=submit]').addEventListener('click', function(e) {
+    this.element.querySelector('button[type=submit]').addEventListener('click',
+     function(e) {
       // Make sure that the form isn't actually being sent.
       e.preventDefault();
       e.stopPropagation();
       self.processQueue();
     });
 
-    // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-    // of the sending event because uploadMultiple is set to true.
+    // Listen to the sendingmultiple event. In this case, it's the
+    // sendingmultiple event instead of the sending event because
+    // uploadMultiple is set to true.
     this.on('sendingmultiple', function() {
       // Gets triggered when the form is actually being sent.
       // Hide the success button or the complete form.

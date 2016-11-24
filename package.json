@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "test": "npm run testsuite && npm run linter",
-    "testsuite": "./node_modules/.bin/mocha test/** --recursive",
+    "testsuite": "./node_modules/.bin/mocha test/* --recursive",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec",
     "linter": "./node_modules/.bin/jshint --config .jshintrc ./app.js ./lib ./test",
     "start": "node app.js"

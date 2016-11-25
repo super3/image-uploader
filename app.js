@@ -140,7 +140,7 @@ app.post('/upload/:threadId', function(req, res) {
             imageId: entry.imageId,
             threadId: threadId,
             author: 'anonymous',
-            fileName: 'image.jpg',
+            fileName: entry.fileName,
             title: title,
             comment: comment,
             firstPost: true
@@ -155,7 +155,7 @@ app.post('/upload/:threadId', function(req, res) {
             imageId: entry.imageId,
             threadId: threadId,
             author: 'anonymous',
-            fileName: 'image.jpg',
+            fileName: entry.fileName,
             title: '',
             comment: '>> ' + lastPostId,
             firstPost: false

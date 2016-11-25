@@ -1,6 +1,7 @@
 {
   "name": "image-uploader",
   "version": "1.0.0",
+   "main": "app.js",
   "engines": {
     "node": "6.9.1"
   },

@@ -21,6 +21,11 @@ function enableSubmit() {
 
 }
 
+function resetForm() {
+  document.getElementById('title').value = '';
+  document.getElementById('comment').value = '';
+}
+
 // make sure at the title is filled
 $('#title').on('input', function() {
   enableSubmit();
@@ -77,7 +82,8 @@ Dropzone.options.newThread = {
     self.on('complete', function(file) {
       /*global dom */
       dom.addThreadDom(file.xhr.response, file);
-      console.log('complete upload');
+      this.removeAllFiles();
+      resetForm();
     });
 
   }

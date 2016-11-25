@@ -2,17 +2,21 @@
 /*globals $:false */
 
 var numFiles = 0;
-var isThread = location.href.split('/')[3] === 'thread';
 
+/**
+ * Only enable the submit button if the required fields are entered.
+ */
 function enableSubmit() {
-  var title = document.getElementById('title');
-  var submit = document.getElementById('submit');
+
+  var submitBtn = document.getElementById('submit');
+  var isThread = location.href.split('/')[3] === 'thread';
 
   if (!isThread) {
-    submit.disabled = (title.value.length === 0 || numFiles === 0);
+    var title = document.getElementById('title');
+    submitBtn.disabled = (title.value.length === 0 || numFiles === 0);
   }
   else {
-    submit.disabled = (numFiles === 0);
+    submitBtn.disabled = (numFiles === 0);
   }
 
 }
@@ -51,26 +55,22 @@ Dropzone.options.newThread = {
     });
 
     // New file added
-    self.on('addedfile', function(file) {
-      numFiles = this.files.length;
+    self.on('addedfile', function() {
+      numFiles = this.files.length;  // update number of files
       enableSubmit();
-      console.log('new file added ', file);
     });
 
     // File removed
-    self.on('removedfile', function(file) {
-      numFiles = this.files.length;
+    self.on('removedfile', function() {
+      numFiles = this.files.length;  // update number of files
       enableSubmit();
-      console.log('new file added ', file);
     });
 
     // Send file starts
     self.on('sending', function(file, xhr, data) {
-      console.log('upload started', file);
-      console.log('upload started', xhr);
+      // add the form data to the upload
       data.append('title', document.getElementById('title').value);
       data.append('comment', document.getElementById('comment').value);
-
     });
 
     // File completed

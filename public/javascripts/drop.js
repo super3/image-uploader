@@ -2,11 +2,19 @@
 /*globals $:false */
 
 var numFiles = 0;
+var isThread = location.href.split('/')[3] === 'thread';
 
 function enableSubmit() {
   var title = document.getElementById('title');
   var submit = document.getElementById('submit');
-  submit.disabled = (title.value.length === 0 || numFiles === 0);
+
+  if (!isThread) {
+    submit.disabled = (title.value.length === 0 || numFiles === 0);
+  }
+  else {
+    submit.disabled = (numFiles === 0);
+  }
+
 }
 
 // make sure at the title is filled

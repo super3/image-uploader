@@ -1,6 +1,7 @@
 'use strict';
 
 var dom = {};
+var isThread = location.href.split('/')[3] === 'thread';
 
 /**
 * Returns card link and image.
@@ -86,7 +87,12 @@ dom.addThreadDom = function addThreadDom(data, files) {
   card.appendChild(dom.addCardBlock(threadObj));
 
   // Add the card to the DOM
-  document.getElementById('thread-cards').prepend(card);
+  if (!isThread){
+    document.getElementById('thread-cards').prepend(card);
+  }
+  else {
+    document.getElementById('thread-cards').append(card);
+  }
 };
 
 if( typeof module !== 'undefined' ) {

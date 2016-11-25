@@ -65,8 +65,12 @@ Dropzone.options.newThread = {
     });
 
     // Send file starts
-    self.on('sending', function(file) {
+    self.on('sending', function(file, xhr, data) {
       console.log('upload started', file);
+      console.log('upload started', xhr);
+      data.append('title', document.getElementById('title').value);
+      data.append('comment', document.getElementById('comment').value);
+
     });
 
     // File completed

@@ -3,6 +3,7 @@
 
 var numFiles = 0;
 var firstPost = true;
+var isThread = location.href.split('/')[3] === 'thread';
 
 /**
  * Only enable the submit button if the required fields are entered.
@@ -10,7 +11,6 @@ var firstPost = true;
 function enableSubmit() {
 
   var submitBtn = document.getElementById('submit');
-  var isThread = location.href.split('/')[3] === 'thread';
 
   if (!isThread) {
     var title = document.getElementById('title');
@@ -82,7 +82,7 @@ Dropzone.options.newThread = {
     // File completed
     self.on('complete', function(file) {
       /*global dom */
-      if (firstPost) {
+      if (firstPost || isThread) {
         dom.addThreadDom(file.xhr.response, file);
         this.removeAllFiles();
         resetForm();
@@ -91,7 +91,7 @@ Dropzone.options.newThread = {
     });
 
     self.on('reset', function() {
-      firstPost = true; 
+      firstPost = true;
     });
 
   }

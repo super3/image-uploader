@@ -2,6 +2,7 @@
 /*globals $:false */
 
 var numFiles = 0;
+var firstPost = true;
 
 /**
  * Only enable the submit button if the required fields are entered.
@@ -81,9 +82,16 @@ Dropzone.options.newThread = {
     // File completed
     self.on('complete', function(file) {
       /*global dom */
-      dom.addThreadDom(file.xhr.response, file);
-      this.removeAllFiles();
-      resetForm();
+      if (firstPost) {
+        dom.addThreadDom(file.xhr.response, file);
+        this.removeAllFiles();
+        resetForm();
+        firstPost = false;
+      }
+    });
+
+    self.on('reset', function() {
+      firstPost = true; 
     });
 
   }

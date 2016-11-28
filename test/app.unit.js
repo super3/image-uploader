@@ -1,5 +1,6 @@
 'use strict';
 
+var expect = require('chai').expect;
 var supertest = require('supertest');
 var api = supertest('http://localhost:3000');
 var mongoose = require('mongoose');

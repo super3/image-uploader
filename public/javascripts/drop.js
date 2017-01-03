@@ -84,9 +84,10 @@ Dropzone.options.newThread = {
       /*global dom */
       if (firstPost || isThread) {
         dom.addThreadDom(file.xhr.response, file);
-        this.removeAllFiles();
-        resetForm();
+        firstPost = false;
       }
+      this.removeAllFiles();
+      resetForm();
     });
 
     self.on('reset', function() {

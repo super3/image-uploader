@@ -78,8 +78,8 @@ app.post('/upload/:threadId?', function(req, res) {
         if(!exists) {
           cancelled = true;
 
-          res.status(404).send('Thread Not Found');
-          res.end();
+          //res.status(404).send('Thread Not Found');
+          //res.end();
         }
       });
   }

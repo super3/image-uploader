@@ -54,8 +54,10 @@ app.get('/image/:imageId/:filename', function(req, res) {
 });
 
 // upload files (images only)
-// jshint maxstatements: 20
+// jshint maxstatements: 30
 app.post('/upload/:threadId?', function(req, res) {
+  console.log('this ran');
+
   // create an incoming form object
   var form = new formidable.IncomingForm();
 

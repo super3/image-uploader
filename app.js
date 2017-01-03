@@ -40,7 +40,7 @@ app.get('/', function(req, res) {
 app.get('/thread/:threadId', function(req, res) {
 
   // find all the posts associated with the thread and sent to page
-  db.findThreadPosts(req.params.threadId, function(posts) {
+  db.findThreadPosts(req.params.threadId, function(err, posts) {
     posts = utils.addTimeAgo(posts);
     res.render('thread.html', { posts: posts, threadId: req.params.threadId });
   });

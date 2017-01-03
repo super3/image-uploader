@@ -68,10 +68,23 @@ app.post('/upload/:threadId?', function(req, res) {
   // title and comment field
   var title = '';
   var comment = '';
+  var threadId = '';
 
-  // if threadId doesn't exist create one
-  var threadId = req.params.threadId ? req.params.threadId :
-                 mongoose.Types.ObjectId();
+  // if threadId exists check it, if not create one
+  if (req.params.threadId) {
+      threadId = req.params.threadId;
+      db.threadExists(threadId, function (exists) {
+        if(!exists) {
+          cancelled = true;
+
+          res.status(404).send('Thread Not Found');
+          res.end();
+        }
+      });
+  }
+  else {
+    threadId = mongoose.Types.ObjectId();
+  }
 
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);

@@ -1,6 +1,5 @@
 'use strict';
 
-var expect = require('chai').expect;
 var supertest = require('supertest');
 var api = supertest('http://localhost:3000');
 var mongoose = require('mongoose');
@@ -22,25 +21,15 @@ describe('App', function() {
   });
 
   it('upload a sample image file', function(done) {
-    let threadId = mongoose.Types.ObjectId();
-    let expectedResponse = {
-            threadTitle: 'A sample title.',
-            threadId: threadId
-        };
-    api.post('/upload/' + threadId)
+    api.post('/upload')
             .attach('samplefile', utils.createSampleFile('sample1.jpg'))
             .field('title', 'A sample title.')
             .field('comment', 'A sample comment.')
-            .expect(200)
-            .end(function (err, res) {
-              expect(res.text).to.equal(JSON.stringify(expectedResponse));
-              done();
-            });
+            .expect(200, done);
   });
 
   it('upload multiple image files', function(done) {
-    let threadId = mongoose.Types.ObjectId();
-    api.post('/upload/' + threadId)
+    api.post('/upload')
             .attach('samplefile', utils.createSampleFile('sample2.jpg'))
             .attach('samplefile2', utils.createSampleFile('sample3.jpg'))
             .field('title', 'A sample title.')

@@ -54,8 +54,7 @@ app.get('/image/:imageId/:filename', function(req, res) {
 
 // upload files (images only)
 // jshint maxstatements: 20
-app.post('/upload/:threadId', function(req, res) {
-
+app.post('/upload/:threadId?', function(req, res) {
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
@@ -69,7 +68,12 @@ app.post('/upload/:threadId', function(req, res) {
   // title and comment field
   var title = '';
   var comment = '';
-  var threadId = req.params.threadId;
+  if(req.params.threadId) {
+    var threadId = req.params.threadId;
+  }
+  else{
+    var threadId = mongoose.Types.ObjectId();
+  }
 
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);

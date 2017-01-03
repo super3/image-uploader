@@ -66,17 +66,18 @@ dom.addCardBlock = function addCardBlock(threadObj) {
 
 /**
 * Adds a thread to the DOM.
-* @param {object} threadObj Object containing metadata for a thread.
+* @param {object} data Response containing metadata for a thread.
 * @param {object} files Object containing upload file images.
 */
 dom.addThreadDom = function addThreadDom(data, files) {
 
-  // convert response to bucket object
+  // Convert response to bucket object
   var response = JSON.parse(data);
   var threadObj = {
     threadTitle: response.threadTitle,
     threadId: response.threadId,
   };
+  console.log('threadId' + threadObj.threadId);
 
   // Create thread card
   var card = document.createElement('div');

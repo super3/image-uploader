@@ -86,7 +86,6 @@ Dropzone.options.newThread = {
         dom.addThreadDom(file.xhr.response, file);
         this.removeAllFiles();
         resetForm();
-        firstPost = false;
       }
     });
 

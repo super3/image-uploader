@@ -48,6 +48,7 @@ describe('App', function() {
   it('thread page should return a 200 response', function(done) {
     // grab the most recent thread id and try to load page
     db.findIndexThreads(config.threadsOnIndex, function (err, threads){
+        console.log(threads[0].threadId);
         api.get('/thread/' + threads[0].threadId)
         .expect(200, done);
     });

@@ -68,11 +68,12 @@ app.post('/upload/:threadId?', function(req, res) {
   // title and comment field
   var title = '';
   var comment = '';
+  var threadId = '';
   if(req.params.threadId) {
-    var threadId = req.params.threadId;
+    threadId = req.params.threadId;
   }
   else{
-    var threadId = mongoose.Types.ObjectId();
+    threadId = mongoose.Types.ObjectId();
   }
 
   // store all uploads in the /uploads/bucket_id directory

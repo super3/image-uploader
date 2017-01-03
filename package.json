@@ -21,19 +21,19 @@
     "url": "git://github.com/super3/image-uploader.git"
   },
   "dependencies": {
-    "bluebird": "^3.4.6",
+    "bluebird": "^3.4.7",
     "express": "^4.14.0",
     "formidable": "^1.0.17",
     "mongoose": "^4.7.0",
-    "mustache": "^2.2.1",
+    "mustache": "^2.3.0",
     "mustache-express": "^1.2.4"
   },
   "devDependencies": {
     "chai": "^3.5.0",
-    "coveralls": "^2.11.14",
+    "coveralls": "^2.11.15",
     "istanbul": "^0.4.5",
     "jshint": "^2.9.3",
-    "mocha": "^3.1.2",
+    "mocha": "^3.2.0",
     "supertest": "^2.0.0"
   }
 }

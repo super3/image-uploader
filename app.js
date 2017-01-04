@@ -30,8 +30,7 @@ app.get('/', function(req, res) {
   // find the most recent threads and send them to the index
   db.findIndexThreads(config.threadsOnIndex, function(err, threads) {
     threads = utils.addTimeAgo(threads);
-    var newThreadId = mongoose.Types.ObjectId();
-    res.render('index.html', { threads: threads, newThreadId: newThreadId });
+    res.render('index.html', { threads: threads });
   });
 
 });
@@ -41,7 +40,6 @@ app.get('/thread/:threadId', function(req, res) {
 
   // find all the posts associated with the thread and sent to page
   db.findThreadPosts(req.params.threadId, function(err, posts) {
-    console.log(posts);
     posts = utils.addTimeAgo(posts);
     res.render('thread.html', { posts: posts, threadId: req.params.threadId });
   });
@@ -56,8 +54,7 @@ app.get('/image/:imageId/:filename', function(req, res) {
 // upload files (images only)
 // jshint maxstatements: 30
 app.post('/upload/:threadId?', function(req, res) {
-  console.log('this ran');
-
+  
   // create an incoming form object
   var form = new formidable.IncomingForm();
 

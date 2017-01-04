@@ -1,13 +1,13 @@
 'use strict';
 
+var mongoose = require('mongoose');
 var supertest = require('supertest');
 var api = supertest('http://localhost:3000');
-var mongoose = require('mongoose');
 
 /* jshint undef: true */
 var app = require('../app.js');
-var config = require('../config.js');
 var db = require('../lib/db.js');
+var config = require('../config.js');
 var utils = require('../lib/utils.js');
 
 describe('App', function() {
@@ -22,33 +22,32 @@ describe('App', function() {
 
   it('upload a sample image file', function(done) {
     api.post('/upload')
-            .attach('samplefile', utils.createSampleFile('sample1.jpg'))
-            .field('title', 'A sample title.')
-            .field('comment', 'A sample comment.')
-            .expect(200, done);
+      .attach('samplefile', utils.createSampleFile('sample1.jpg'))
+      .field('title', 'A sample title.')
+      .field('comment', 'A sample comment.')
+      .expect(200, done);
   });
 
   it('upload multiple image files', function(done) {
     api.post('/upload')
-            .attach('samplefile', utils.createSampleFile('sample2.jpg'))
-            .attach('samplefile2', utils.createSampleFile('sample3.jpg'))
-            .field('title', 'A sample title.')
-            .field('comment', 'A sample comment.')
-            .expect(200, done);
+      .attach('samplefile', utils.createSampleFile('sample2.jpg'))
+      .attach('samplefile2', utils.createSampleFile('sample3.jpg'))
+      .field('title', 'A sample title.')
+      .field('comment', 'A sample comment.')
+      .expect(200, done);
   });
 
   it('upload an invalid file', function(done) {
     let threadId = mongoose.Types.ObjectId();
     api.post('/upload/' + threadId)
-            .attach('invalidfile', utils.createSampleFile('sample.txt'))
-            .expect(415, done);
+      .attach('invalidfile', utils.createSampleFile('sample.txt'))
+      .expect(415, done);
   });
 
 
   it('thread page should return a 200 response', function(done) {
     // grab the most recent thread id and try to load page
     db.findIndexThreads(config.threadsOnIndex, function (err, threads){
-        console.log(threads[0].threadId);
         api.get('/thread/' + threads[0].threadId)
         .expect(200, done);
     });

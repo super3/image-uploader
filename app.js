@@ -28,14 +28,14 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
 
   // find the most recent threads and send them to the index
-  db.findIndexThreads(config.threadsOnIndex, function(err, threads) {
+  db.findIndexThreads(config.threadsOnIndex, function(threads) {
     threads = utils.addTimeAgo(threads);
     res.render('index.html', { threads: threads });
   });
 
 });
 
-// display all files in a thread
+// display all images in a thread
 app.get('/thread/:threadId', function(req, res) {
 
   // find all the posts associated with the thread and sent to page
@@ -52,9 +52,9 @@ app.get('/image/:imageId/:filename', function(req, res) {
 });
 
 // upload files (images only)
-// jshint maxstatements: 30
+// jshint maxstatements: 20
 app.post('/upload/:threadId?', function(req, res) {
-  
+
   // create an incoming form object
   var form = new formidable.IncomingForm();
 
@@ -70,21 +70,7 @@ app.post('/upload/:threadId?', function(req, res) {
   var comment = '';
   var threadId = '';
 
-  // if threadId exists check it, if not create one
-  if (req.params.threadId) {
-      threadId = req.params.threadId;
-      db.threadExists(threadId, function (exists) {
-        if(!exists) {
-          cancelled = true;
 
-          //res.status(404).send('Thread Not Found');
-          //res.end();
-        }
-      });
-  }
-  else {
-    threadId = mongoose.Types.ObjectId();
-  }
 
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);
@@ -102,6 +88,22 @@ app.post('/upload/:threadId?', function(req, res) {
 
       res.status(415).send('Unsupported Media Type');
       res.end();
+    }
+
+    // if threadId exists check it, if not create one
+    if (req.params.threadId) {
+        threadId = req.params.threadId;
+        db.threadExists(threadId, function (exists) {
+          if(!exists) {
+            cancelled = true;
+
+            res.status(404).send('Thread Not Found');
+            res.end();
+          }
+        });
+    }
+    else {
+      threadId = mongoose.Types.ObjectId();
     }
   });
 

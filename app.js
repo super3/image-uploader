@@ -70,8 +70,6 @@ app.post('/upload/:threadId?', function(req, res) {
   var comment = '';
   var threadId = '';
 
-
-
   // store all uploads in the /uploads/bucket_id directory
   form.uploadDir = path.join(__dirname, config.uploadDir);
 
@@ -97,8 +95,8 @@ app.post('/upload/:threadId?', function(req, res) {
           if(!exists) {
             cancelled = true;
 
-            res.status(404).send('Thread Not Found');
-            res.end();
+            //res.status(404).send('Thread Not Found');
+            //res.end();
           }
         });
     }

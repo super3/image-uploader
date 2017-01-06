@@ -3,7 +3,7 @@
   "version": "1.0.0",
    "main": "app.js",
   "engines": {
-    "node": "6.9.2"
+    "node": "6.9.4"
   },
   "description": "Simple image uploader.",
   "main": "index.js",

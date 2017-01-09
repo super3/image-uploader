@@ -28,7 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res) {
 
   // find the most recent threads and send them to the index
-  db.findIndexThreads(config.threadsOnIndex, function(threads) {
+  db.findIndexThreads(config.threadsOnIndex, function(err, threads) {
     threads = utils.addTimeAgo(threads);
     res.render('index.html', { threads: threads });
   });
